@@ -1,4 +1,6 @@
-﻿
+﻿@using Kitchen_MVC.DTO.Category
+@model Kitchen_MVC.ViewModels.Header.HeaderViewModel
+
 <div id="header">
 	<div class="container">
 		<div id="welcomeLine" class="row">
@@ -28,11 +30,10 @@
 					<input id="srchFld" class="srchTxt" type="text" />
 					<select class="srchTxt">
 						<option>All</option>
-						<option>CLOTHES </option>
-						<option>FOOD AND BEVERAGES </option>
-						<option>HEALTH & BEAUTY </option>
-						<option>SPORTS & LEISURE </option>
-						<option>BOOKS & ENTERTAINMENTS </option>
+						@foreach(CategoryDTO item in Model.Categories)
+						{
+							<option>@item.Name</option>
+						}
 					</select>
 					<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
 				</form>
