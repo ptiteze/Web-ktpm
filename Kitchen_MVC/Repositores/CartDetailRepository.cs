@@ -15,6 +15,14 @@ namespace Kitchen_MVC.Repositores
 			_context = context;
 			_mapper = mapper;
 		}
+
+		public bool CartExists(int idProduct, int IdCustomer)
+		{
+			var cartDetail = _context.CartDetails.Where(c => c.ProductId == idProduct && c.CustomerId == IdCustomer).FirstOrDefault();
+			if (cartDetail == null) return false;
+			return true;
+		}
+
 		public async Task<bool> CreateCartDetail(CreateCartDetailRequest request)
 		{
 			CartDetail cartDetail = _mapper.Map<CartDetail>(request);
@@ -23,9 +31,18 @@ namespace Kitchen_MVC.Repositores
 			return true;
 		}
 
-		public Task<bool> DeleteCartDetail(int idProduct, int IdCustomer)
+		public async Task<bool> DeleteCartDetail(int idProduct, int idCustomer)
 		{
-			throw new NotImplementedException();
+			var cartDetail = _context.CartDetails.Where(c => c.ProductId == idProduct && c.CustomerId == idCustomer).FirstOrDefault();
+			if (cartDetail == null) return false;
+			_context.Remove(cartDetail);
+			_context.SaveChanges();
+			return true;
+		}
+
+		public int GetCartCount(int IdCustomer)
+		{
+			return _context.CartDetails.Count(c => c.CustomerId == IdCustomer);
 		}
 
 		public async Task<List<CartDetailDTO>> GetCartDetailByIdCustomer(int id)
@@ -36,9 +53,13 @@ namespace Kitchen_MVC.Repositores
 			return cartDetailDTOs;
 		}
 
-		public Task<bool> UpdateCartDetail(int IdProduct, int IdCustomer, UpdateCartDetailRequest request)
+		public async Task<bool> UpdateCartDetail(int IdProduct, int IdCustomer, int Quantity)
 		{
-			throw new NotImplementedException();
+			var cartDetail = _context.CartDetails.Where(c => c.ProductId == IdProduct && c.CustomerId == IdCustomer).FirstOrDefault();
+			if (cartDetail == null) return false;
+			cartDetail.Quantity = Quantity;
+			_context.Update(cartDetail);
+			return true;
 		}
 	}
 }

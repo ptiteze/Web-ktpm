@@ -47,9 +47,9 @@ namespace Kitchen_MVC.Repositores
             return imageDtos;
 		}
 
-		public async Task<ProductDTO> GetProductById(int id)
+		public ProductDTO GetProductById(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = _context.Products.Where(p => p.Id == id).FirstOrDefault();
 
             return _mapper.Map<ProductDTO>(product);
         }

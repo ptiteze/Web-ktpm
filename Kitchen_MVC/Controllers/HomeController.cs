@@ -8,6 +8,7 @@ using Kitchen_MVC.ViewModels.Header;
 using Kitchen_MVC.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Kitchen_MVC.Controllers
 {
@@ -76,7 +77,30 @@ namespace Kitchen_MVC.Controllers
 			};
 			return View(Models);
 		}
-
+		public IActionResult Contact()
+		{
+			List<CategoryDTO> categories = _clientCategory.GetAllCategories();
+			var headerViewModel = new HeaderViewModel()
+			{
+				Categories = categories
+			};
+			ViewBag.HeaderData = headerViewModel;
+			return View();
+		}
+		public IActionResult Login()
+		{
+			List<CategoryDTO> categories = _clientCategory.GetAllCategories();
+			var headerViewModel = new HeaderViewModel()
+			{
+				Categories = categories
+			};
+			ViewBag.HeaderData = headerViewModel;
+			HomeViewModels Models = new HomeViewModels
+			{
+				Categories = categories,
+			};
+			return View(Models);
+		}
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{

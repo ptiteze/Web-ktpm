@@ -50,7 +50,7 @@
 												<li class="span3">
 													<div class="thumbnail">
 														<i class="tag"></i>
-														<a href="product_details.html"><img src=@Model.Images[i].Url alt=""></a>
+														<a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@Model.Products[i].Id"><img src=@Model.Images[i].Url alt=""></a>
 														<div class="caption">
 															@{
 																string truncatedName = Model.Products[i].Name.Length > 22
@@ -58,7 +58,7 @@
 																: Model.Products[i].Name;
 															}
 															<h5>@truncatedName</h5>
-															<h4><a class="btn" href="product_details.html">VIEW</a> <span class="pull-right">$@Model.Products[i].Price.ToString("F0")</span></h4>
+															<h4><a class="btn" asp-controller="Product" asp-action="ProductDetail" asp-route-id="@Model.Products[i].Id">VIEW</a> <span class="pull-right">$@Model.Products[i].Price.ToString("F0")</span></h4>
 														</div>
 													</div>
 												</li>
@@ -78,7 +78,7 @@
 					{
 						<li class="span3">
 							<div class="thumbnail">
-								<a href="product_details.html"><img src=@Model.Images[i].Url alt="" /></a>
+								<a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@Model.Products[i].Id"><img src=@Model.Images[i].Url alt="" /></a>
 								<div class="caption">
 									@{
 										string truncatedName = Model.Products[i].Name.Length > 22
@@ -93,7 +93,11 @@
 										@truncatedDes
 									</p>
 
-									<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">$@Model.Products[i].Price.ToString("F0")</a></h4>
+									<h4 style="text-align:center"><a class="btn" asp-controller="Product" asp-action="ProductDetail" asp-route-id="@Model.Products[i].Id"> <i class="icon-zoom-in"></i></a>
+										<a class="ajax-add-to-cart btn" data-id=@Model.Products[i].Id @* asp-controller="Cart" asp-action="AddToCart" asp-route-ProductId="@Model.Products[i].Id"
+										   asp-route-CustomerId="1" asp-route-Quantity="1" *@>Add to <i class="icon-shopping-cart"></i></a>
+										
+										<a class="btn btn-primary" href="#">$@Model.Products[i].Price.ToString("F0")</a></h4>
 								</div>
 							</div>
 						</li>
@@ -104,3 +108,40 @@
 	</div>
 </div>
 <!-- Sidebar end=============================================== -->
+@section Scripts{
+	
+	<script>
+		$(document).ready(function () {
+			$(".ajax-add-to-cart").click(function () {
+				$.ajax({
+					url: '@Url.Action("AddToCart", "Cart")',
+					type: 'POST',
+					data: {
+						ProductId: $(this).data("id"),
+						CustomerId: 1,
+						Quantity: 1
+					},
+					success: function (data) {
+						console.log(data);
+						Swal.fire({
+							position: "center",
+							icon: "success",
+							title: "Thêm vào giỏ hàng thành công",
+							showConfirmButton: false,
+							timer: 1500
+						});
+						$("#Cart_count").html("[ " + data.count + "] in your cart");
+					},
+					error: function () {
+						Swal.fire({
+							icon: "error",
+							title: "Oops...",
+							text: "Thêm vào giỏ hàng thất bại",
+							footer: '<a href="#">Reload lại trang?</a>'
+						});
+					}
+				});
+			});
+		});
+	</script>
+}
