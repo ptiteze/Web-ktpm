@@ -25,6 +25,11 @@ namespace Kitchen_MVC.Controllers
 			_clientProduct = clientProduct;
 		}
 
+		public HttpContext GetHttpContext()
+		{
+			return HttpContext;
+		}
+
 		public IActionResult Index()
 		{
 
@@ -48,6 +53,7 @@ namespace Kitchen_MVC.Controllers
 				Products = products,
 				Images = images
 			};
+
 			return View(Models);
 		}
 

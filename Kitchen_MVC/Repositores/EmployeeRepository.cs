@@ -33,20 +33,6 @@ namespace Kitchen_MVC.Repositores
             _accountRepository = accountRepository;
         }
 
-        public async Task<bool> ActiveAccount(VerifyOTPRequest request)
-        {
-            await _accountRepository.VerifyOTP(request);
-
-            var account = _dataContext.Accounts.FirstOrDefault(x => x.Email == request.Email);
-
-            account.Status = true;
-
-            _dataContext.Accounts.Update(account);
-            _dataContext.SaveChanges();
-
-            return true;
-        }
-
         public async Task<bool> CreateEmployee(CreateEmployeeRequest request)
         {
             Employee employee = _mapper.Map<Employee>(request);

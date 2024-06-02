@@ -31,6 +31,9 @@
 		@RenderSection("Header", required: false)
 	</header>
 	<div class="container">
+		<div class="sidebar">
+			@RenderSection("Sidebar", required: false)
+		</div>
 		<main role="main" class="pb-3">
 			@RenderBody()
 		</main>

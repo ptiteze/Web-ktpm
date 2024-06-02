@@ -4,6 +4,7 @@ namespace Kitchen_MVC.DTO.Account
 {
     public class ChangePasswordRequest
     {
+        public string Email { get; set; }
         [Required]
         public string OldPassword { get; set; }
         [Required]

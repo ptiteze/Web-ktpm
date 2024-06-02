@@ -8,17 +8,8 @@ namespace Kitchen_MVC.Interfaces
 
         Task<AccountDTO> findAccount(string email);
 
-        Task<AuthDTO> Authenticate(LoginAuthRequest request);
+        Task<InfoAccountDTO> Login(LoginAuthRequest request);
 
-        Task<AuthDTO> RefreshToken(RefreshTokenRequest request);
-
-        Task<bool> ResendOTP(ResendOTPRequest request);
-
-        Task<bool> VerifyOTP(VerifyOTPRequest request);
-
-        Task<bool> ForgotPassword(ForgotPasswordRequest request);
-
-        Task<bool> ResetPassword(ResetPasswordRequest request);
 
         Task<bool> ChangePassword(ChangePasswordRequest request);
     }
