@@ -7,7 +7,7 @@ namespace Kitchen_MVC.Interfaces
     public interface IProductRepository
     {
 
-        Task<ProductDTO> GetProductById(int id);
+        ProductDTO GetProductById(int id);
 
         Task<bool> CreateProduct(CreateProductRequest request);
 

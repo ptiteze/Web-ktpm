@@ -1,11 +1,12 @@
 ﻿using Kitchen_MVC.DTO.Category;
+using Kitchen_MVC.DTO.Product;
 using Kitchen_MVC.Models;
 
 namespace Kitchen_MVC.Interfaces
 {
     public interface ICategoryRepository
     {
-        Task<Category> GetCategoryById(int id);
+        CategoryDTO GetCategoryById(int id);
 
         Task<bool> CreateCategory(CreateCategoryRequest request);
 
@@ -14,5 +15,6 @@ namespace Kitchen_MVC.Interfaces
         Task<bool> DeleteCategory(int id);
 
         List<CategoryDTO> GetAllCategories();
+        List<ProductDTO> GetProductsByCategoryId(int id);
     }
 }

@@ -140,3 +140,4 @@ D:\source\repos\Kitchen_MVC\Kitchen_MVC\bin\Debug\net8.0\CloudinaryDotNet.dll
 D:\source\repos\Kitchen_MVC\Kitchen_MVC\bin\Debug\net8.0\MailKit.dll
 D:\source\repos\Kitchen_MVC\Kitchen_MVC\bin\Debug\net8.0\MimeKit.dll
 D:\source\repos\Kitchen_MVC\Kitchen_MVC\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\source\repos\Kitchen_MVC\Kitchen_MVC\obj\Debug\net8.0\Kitchen_MVC.sourcelink.json

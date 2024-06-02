@@ -33,7 +33,8 @@ namespace Kitchen_MVC.Repositores
 
         public List<ProductDTO> GetAllProducts()
         {
-            var products = _context.Products.Where(x => x.Status == true).ToList();
+
+            var products = _context.Products.Where(p => p.Status == true).ToList();
             var productDtos = new List<ProductDTO>();
             products.ForEach(x => productDtos.Add(_mapper.Map<ProductDTO>(x)));
             return productDtos;
@@ -47,9 +48,9 @@ namespace Kitchen_MVC.Repositores
             return imageDtos;
 		}
 
-		public async Task<ProductDTO> GetProductById(int id)
+		public ProductDTO GetProductById(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = _context.Products.Where(p => p.Id == id).FirstOrDefault();
 
             return _mapper.Map<ProductDTO>(product);
         }

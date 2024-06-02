@@ -1,9 +1,12 @@
+
 ﻿ @using Microsoft.AspNetCore.Http;
 @inject IHttpContextAccessor HttpContextAccessor
 @{
 	string Fullname = HttpContextAccessor.HttpContext.Session.GetString("Fullname");
 	string Username = HttpContextAccessor.HttpContext.Session.GetString("Username");
 }
+﻿@using Kitchen_MVC.DTO.Category
+@model Kitchen_MVC.ViewModels.Header.HeaderViewModel
 
 <div id="header">
 	<div class="container">
@@ -17,7 +20,7 @@
 					<a href="product_summary.html"><span>&pound;</span></a>
 					<span class="btn btn-mini">$0.00</span>
 					<a href="product_summary.html"><span class="">$</span></a>
-					<a href="product_summary.html"><span class="btn btn-mini btn-primary"><i class="icon-shopping-cart icon-white"></i> [ 0 ] es in your cart </span> </a>
+					<a href="product_summary.html"><span class="btn btn-mini btn-primary" id="Cart_count"><i class="icon-shopping-cart icon-white"></i> [ 0 ] in your cart </span> </a>
 				</div>
 			</div>
 		</div>
@@ -29,23 +32,23 @@
 				<span class="icon-bar"></span>
 			</a>
 			<div class="navbar-inner">
-				<a class="brand" href="index.html"><img src="~/themes/images/logo.png" alt="KitchenShop" /></a>
+				<a class="brand" href="~/Home/Index"><img src="~/themes/images/logo.png" alt="KitchenShop" /></a>
 				<form class="form-inline navbar-search" method="post" action="products.html">
 					<input id="srchFld" class="srchTxt" type="text" />
 					<select class="srchTxt">
 						<option>All</option>
-						<option>CLOTHES </option>
-						<option>FOOD AND BEVERAGES </option>
-						<option>HEALTH & BEAUTY </option>
-						<option>SPORTS & LEISURE </option>
-						<option>BOOKS & ENTERTAINMENTS </option>
+						@foreach(CategoryDTO item in Model.Categories)
+						{
+							<option>@item.Name</option>
+						}
 					</select>
 					<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
 				</form>
 				<ul id="topMenu" class="nav pull-right">
 					<li class=""><a href="special_offer.html">Specials Offer</a></li>
 					<li class=""><a href="normal.html">Delivery</a></li>
-					<li class=""><a href="contact.html">Contact</a></li>
+
+					<li class=""><a href="~/Home/Contact">Contact</a></li>
 					@if (@Username != null)
 					{
 						<li class=""><a href="@Url.Action("Logout", "Account")" role="button" data-toggle="modal" style="padding-right:0"><span class="btn btn-large btn-success">Logout</span></a></li>

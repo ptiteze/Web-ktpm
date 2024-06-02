@@ -4,9 +4,11 @@ using Kitchen_MVC.DTO.Image;
 using Kitchen_MVC.DTO.Product;
 using Kitchen_MVC.Interfaces;
 using Kitchen_MVC.Models;
+using Kitchen_MVC.ViewModels.Header;
 using Kitchen_MVC.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Kitchen_MVC.Controllers
 {
@@ -15,14 +17,12 @@ namespace Kitchen_MVC.Controllers
 		private readonly ILogger<HomeController> _logger;
 		private readonly ICategoryRepository _clientCategory;
 		private readonly IProductRepository _clientProduct;
-		private readonly IMapper _mapper;
 		public HomeController(ILogger<HomeController> logger,
-			ICategoryRepository clientCategory, IProductRepository clientProduct, IMapper mapper)
+			ICategoryRepository clientCategory, IProductRepository clientProduct)
 		{
 			_logger = logger;
 			_clientCategory = clientCategory;
 			_clientProduct = clientProduct;
-			_mapper = mapper;
 		}
 
 		public HttpContext GetHttpContext()
@@ -32,6 +32,7 @@ namespace Kitchen_MVC.Controllers
 
 		public IActionResult Index()
 		{
+
 			List<CategoryDTO> categories = _clientCategory.GetAllCategories();
 			List<ProductDTO> products = _clientProduct.GetAllProducts();
 			List<ImageDTO> images = new List<ImageDTO>();
@@ -41,6 +42,11 @@ namespace Kitchen_MVC.Controllers
 				if (imagesTemp != null && imagesTemp.Count > 0)
 					images.Add(imagesTemp[0]);
 			}
+			var headerViewModel = new HeaderViewModel()
+			{
+				Categories = categories
+			};
+			ViewBag.HeaderData = headerViewModel;
 			HomeViewModels Models = new HomeViewModels
 			{
 				Categories = categories,
@@ -51,12 +57,56 @@ namespace Kitchen_MVC.Controllers
 			return View(Models);
 		}
 
-
-		public IActionResult Privacy()
+		public IActionResult ByCategory(int id)
 		{
+			List<CategoryDTO> categories = _clientCategory.GetAllCategories();
+			List<ProductDTO> products = _clientCategory.GetProductsByCategoryId(id);
+			List<ImageDTO> images = new List<ImageDTO>();
+			CategoryDTO category = _clientCategory.GetCategoryById(id);
+			foreach (ProductDTO product in products)
+			{
+				List<ImageDTO> imagesTemp = _clientProduct.GetImageById(product.Id);
+				if (imagesTemp != null && imagesTemp.Count > 0)
+					images.Add(imagesTemp[0]);
+			}
+			var headerViewModel = new HeaderViewModel()
+			{
+				Categories = categories
+			};
+			ViewBag.HeaderData = headerViewModel;
+			HomeViewModels Models = new HomeViewModels
+			{
+				Categories = categories,
+				Products = products,
+				Images = images,
+				Category = category
+			};
+			return View(Models);
+		}
+		public IActionResult Contact()
+		{
+			List<CategoryDTO> categories = _clientCategory.GetAllCategories();
+			var headerViewModel = new HeaderViewModel()
+			{
+				Categories = categories
+			};
+			ViewBag.HeaderData = headerViewModel;
 			return View();
 		}
-
+		public IActionResult Login()
+		{
+			List<CategoryDTO> categories = _clientCategory.GetAllCategories();
+			var headerViewModel = new HeaderViewModel()
+			{
+				Categories = categories
+			};
+			ViewBag.HeaderData = headerViewModel;
+			HomeViewModels Models = new HomeViewModels
+			{
+				Categories = categories,
+			};
+			return View(Models);
+		}
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{

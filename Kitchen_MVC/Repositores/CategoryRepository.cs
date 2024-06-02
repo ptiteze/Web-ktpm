@@ -2,13 +2,14 @@
 using Kitchen_MVC.Commons.Exceptions;
 using Kitchen_MVC.Data;
 using Kitchen_MVC.DTO.Category;
+using Kitchen_MVC.DTO.Product;
 using Kitchen_MVC.Interfaces;
 using Kitchen_MVC.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Kitchen_MVC.Repositores
 {
-    public class CategoryRepository: ICategoryRepository
+	public class CategoryRepository : ICategoryRepository
     {
         private readonly DataContext _dataContext;
         private readonly IMapper _mapper;
@@ -69,12 +70,17 @@ namespace Kitchen_MVC.Repositores
             return _mapper.Map<List<CategoryDTO>>(_dataContext.Categories.ToList());
         }
 
-        public async Task<Category> GetCategoryById(int id)
+        public CategoryDTO GetCategoryById(int id)
         {
-            return _dataContext.Categories.Find(id);
+            return _mapper.Map<CategoryDTO>(_dataContext.Categories.Find(id));
         }
 
-        public async Task<bool> UpdateCategory(int id,UpdateCategoryRequest request)
+		public List<ProductDTO> GetProductsByCategoryId(int id)
+		{
+			return _mapper.Map<List<ProductDTO>>(_dataContext.Products.Where(p  => p.CategoryId == id && p.Status==true).ToList());
+		}
+
+		public async Task<bool> UpdateCategory(int id,UpdateCategoryRequest request)
         {
             bool isSuccess = false;
             try

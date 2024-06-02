@@ -1,0 +1,10 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+	Kitchen_MVC.ViewModels.Header.HeaderViewModel headerData = ViewBag.HeaderData;
+}
+@section Header {
+	@Html.Partial("Header", headerData)
+}
+@section Footer {
+	@Html.Partial("Footer")
+}
