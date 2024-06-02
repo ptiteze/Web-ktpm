@@ -33,7 +33,7 @@ namespace Kitchen_MVC.Repositores
 
 		public async Task<bool> ActiveAccount(VerifyOTPRequest request)
 		{
-			await _accountRepository.VerifyOTP(request);
+			//await _accountRepository.VerifyOTP(request);
 			var account = _dataContext.Accounts.FirstOrDefault(x => x.Email == request.Email);
 			account.Status = true;
 
@@ -45,48 +45,32 @@ namespace Kitchen_MVC.Repositores
 
 		public async Task<bool> CreateCustomer(CreateCustomerRequest request)
 		{
-			Customer customer = _mapper.Map<Customer>(request);
-			// Quản trị viên, Khách hàng, Nhân viên
-			var roleCustomer = await _dataContext.Roles.FindAsync(2);
-			var account = new Account()
+			try
 			{
-				Email = request.Email,
-				Password = request.Password,
-				Role = roleCustomer,
-				RoleId = roleCustomer.Id,
-				Status = false
-			};
-			customer.EmailNavigation = account;
-			account.Customers.Add(customer);
-			_dataContext.Add(account);
-			_dataContext.Add(customer);
-			_dataContext.SaveChanges();
-			//generate otp
-			var otp = _otp.GenerateOTP();
+				Customer customer = _mapper.Map<Customer>(request);
+				// Quản trị viên, Khách hàng, Nhân viên
+				var roleCustomer = await _dataContext.Roles.FindAsync(2);
+				var account = new Account()
+				{
+					Email = request.Email,
+					Password = request.Password,
+					Role = roleCustomer,
+					RoleId = roleCustomer.Id,
+					Status = true
+				};
+				customer.EmailNavigation = account;
+				account.Customers.Add(customer);
+				_dataContext.Add(account);
+				_dataContext.Add(customer);
+				_dataContext.SaveChanges();
 
-			//save register otp 
-			//var userToken = new AppUserToken()
-			//{
-			//	Token = otp,
-			//	Type = TOKEN_TYPE.REGISTER_OTP,
-			//	ExpiredAt = DateTime.Now.AddMinutes(TOKEN_TYPE.OTP_EXPIRY_MINUTES)
-			//};
-
-			//_dataContext.AppUserTokens.Add(userToken);
-			//await _dataContext.SaveChangesAsync();
-
-			//Send mail confirm
-			var title = "Xác nhận đăng ký tài khoản";
-			var name = customer.Fullname;
-			_mail.sendMail(new CreateMailRequest()
+				return true;
+			}
+			catch (Exception ex)
 			{
-				Email = account.Email,
-				Name = name,
-				OTP = otp,
-				Title = title,
-				Type = MAIL_TYPE.REGISTATION
-			});
-			return true;
+				return false;
+			}
+			
 		}
 
 		public async Task<List<CartDetailDTO>> GetCartDetailsByCustomerId(int id)

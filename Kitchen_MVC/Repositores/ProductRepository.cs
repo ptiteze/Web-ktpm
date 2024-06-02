@@ -33,7 +33,7 @@ namespace Kitchen_MVC.Repositores
 
         public List<ProductDTO> GetAllProducts()
         {
-            var products = _context.Products.ToList();
+            var products = _context.Products.Where(x => x.Status == true).ToList();
             var productDtos = new List<ProductDTO>();
             products.ForEach(x => productDtos.Add(_mapper.Map<ProductDTO>(x)));
             return productDtos;

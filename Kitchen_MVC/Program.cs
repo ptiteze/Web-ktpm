@@ -10,6 +10,18 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddConfigureApplication();
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession(options =>
+{
+	// Configure session options here
+	options.Cookie.Name = "YourSessionCookieName";
+	options.Cookie.MaxAge = TimeSpan.FromMinutes(30);
+	// Add other session options as needed
+});
+
+// Add other services
+builder.Services.AddMvc();
+
 builder.Services.AddDbContext<DataContext>(options =>
 {
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -24,6 +36,7 @@ if (!app.Environment.IsDevelopment())
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
+app.UseSession();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

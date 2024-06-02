@@ -10,5 +10,7 @@ namespace Kitchen_MVC.ViewModels.Home
 		public List<CategoryDTO> Categories { get; set; }
 		public List<ProductDTO> Products { get; set; }	
 		public List<ImageDTO> Images { get; set; }
+
+		
 	}
 }

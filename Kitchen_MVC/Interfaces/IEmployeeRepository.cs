@@ -6,7 +6,6 @@ namespace Kitchen_MVC.Interfaces
 {
     public interface IEmployeeRepository
     {
-        Task<bool> ActiveAccount(VerifyOTPRequest request);
 
         ICollection<Employee> ListEmployee();
 

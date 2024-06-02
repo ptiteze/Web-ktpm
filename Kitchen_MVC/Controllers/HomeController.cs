@@ -25,6 +25,11 @@ namespace Kitchen_MVC.Controllers
 			_mapper = mapper;
 		}
 
+		public HttpContext GetHttpContext()
+		{
+			return HttpContext;
+		}
+
 		public IActionResult Index()
 		{
 			List<CategoryDTO> categories = _clientCategory.GetAllCategories();
@@ -42,8 +47,10 @@ namespace Kitchen_MVC.Controllers
 				Products = products,
 				Images = images
 			};
+
 			return View(Models);
 		}
+
 
 		public IActionResult Privacy()
 		{
