@@ -3,42 +3,51 @@
   "WorkspaceRootPath": "D:\\source\\repos\\Kitchen_MVC\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{047D384C-1CE9-427A-982B-7E21F1356490}|Kitchen_MVC\\Kitchen_MVC.csproj|d:\\source\\repos\\kitchen_mvc\\kitchen_mvc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{047D384C-1CE9-427A-982B-7E21F1356490}|Kitchen_MVC\\Kitchen_MVC.csproj|solutionrelative:kitchen_mvc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{047D384C-1CE9-427A-982B-7E21F1356490}|Kitchen_MVC\\Kitchen_MVC.csproj|d:\\source\\repos\\kitchen_mvc\\kitchen_mvc\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{047D384C-1CE9-427A-982B-7E21F1356490}|Kitchen_MVC\\Kitchen_MVC.csproj|solutionrelative:kitchen_mvc\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{047D384C-1CE9-427A-982B-7E21F1356490}|Kitchen_MVC\\Kitchen_MVC.csproj|d:\\source\\repos\\kitchen_mvc\\kitchen_mvc\\views\\shared\\header.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{047D384C-1CE9-427A-982B-7E21F1356490}|Kitchen_MVC\\Kitchen_MVC.csproj|solutionrelative:kitchen_mvc\\views\\shared\\header.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{047D384C-1CE9-427A-982B-7E21F1356490}|Kitchen_MVC\\Kitchen_MVC.csproj|d:\\source\\repos\\kitchen_mvc\\kitchen_mvc\\repositores\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{047D384C-1CE9-427A-982B-7E21F1356490}|Kitchen_MVC\\Kitchen_MVC.csproj|solutionrelative:kitchen_mvc\\repositores\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{047D384C-1CE9-427A-982B-7E21F1356490}|Kitchen_MVC\\Kitchen_MVC.csproj|d:\\source\\repos\\kitchen_mvc\\kitchen_mvc\\views\\product\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{047D384C-1CE9-427A-982B-7E21F1356490}|Kitchen_MVC\\Kitchen_MVC.csproj|solutionrelative:kitchen_mvc\\views\\product\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{047D384C-1CE9-427A-982B-7E21F1356490}|Kitchen_MVC\\Kitchen_MVC.csproj|d:\\source\\repos\\kitchen_mvc\\kitchen_mvc\\views\\account\\changeinfo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{047D384C-1CE9-427A-982B-7E21F1356490}|Kitchen_MVC\\Kitchen_MVC.csproj|solutionrelative:kitchen_mvc\\views\\account\\changeinfo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
     {
-      "Orientation": 0,
+      "Orientation": 1,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
+          "DockedHeight": 147,
           "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "Kitchen_MVC\\Views\\Home\\Index.cshtml",
-              "ToolTip": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "Kitchen_MVC\\Views\\Home\\Index.cshtml",
-              "ViewState": "AQIAAHEAAAAAAAAAAAAMwIQAAAAvAAAA",
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Repositores\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "Kitchen_MVC\\Repositores\\CategoryRepository.cs",
+              "ToolTip": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Repositores\\CategoryRepository.cs",
+              "RelativeToolTip": "Kitchen_MVC\\Repositores\\CategoryRepository.cs",
+              "ViewState": "AQIAAEwAAAAAAAAAAAAgwGQAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-03T16:39:48.198Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductDetail.cshtml",
+              "DocumentMoniker": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Views\\Product\\ProductDetail.cshtml",
+              "RelativeDocumentMoniker": "Kitchen_MVC\\Views\\Product\\ProductDetail.cshtml",
+              "ToolTip": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Views\\Product\\ProductDetail.cshtml",
+              "RelativeToolTip": "Kitchen_MVC\\Views\\Product\\ProductDetail.cshtml",
+              "ViewState": "AQIAACwBAAAAAAAAAAAkwC8BAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-02T04:05:20.72Z",
+              "WhenOpened": "2024-06-03T16:28:28.995Z",
               "EditorCaption": ""
             },
             {
@@ -60,41 +69,33 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Header.cshtml",
-              "DocumentMoniker": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Views\\Shared\\Header.cshtml",
-              "RelativeDocumentMoniker": "Kitchen_MVC\\Views\\Shared\\Header.cshtml",
-              "ToolTip": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Views\\Shared\\Header.cshtml",
-              "RelativeToolTip": "Kitchen_MVC\\Views\\Shared\\Header.cshtml",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAAB0AAAA3AAAA",
+              "Title": "ChangeInfo.cshtml",
+              "DocumentMoniker": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Views\\Account\\ChangeInfo.cshtml",
+              "RelativeDocumentMoniker": "Kitchen_MVC\\Views\\Account\\ChangeInfo.cshtml",
+              "ToolTip": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Views\\Account\\ChangeInfo.cshtml",
+              "RelativeToolTip": "Kitchen_MVC\\Views\\Account\\ChangeInfo.cshtml",
+              "ViewState": "AQIAAGgAAAAAAAAAAAAIwG4AAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-02T04:04:08.757Z",
+              "WhenOpened": "2024-06-03T15:48:22.167Z",
               "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedHeight": 170,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CartController.cs",
-              "DocumentMoniker": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Controllers\\CartController.cs",
-              "RelativeDocumentMoniker": "Kitchen_MVC\\Controllers\\CartController.cs",
-              "ToolTip": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Controllers\\CartController.cs",
-              "RelativeToolTip": "Kitchen_MVC\\Controllers\\CartController.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAQwCMAAAADAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T03:56:28.815Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ProductDetail.cshtml",
-              "DocumentMoniker": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Views\\Product\\ProductDetail.cshtml",
-              "RelativeDocumentMoniker": "Kitchen_MVC\\Views\\Product\\ProductDetail.cshtml",
-              "ToolTip": "D:\\source\\repos\\Kitchen_MVC\\Kitchen_MVC\\Views\\Product\\ProductDetail.cshtml",
-              "RelativeToolTip": "Kitchen_MVC\\Views\\Product\\ProductDetail.cshtml",
-              "ViewState": "AQIAACwAAAAAAAAAAAAMwOAAAADWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-02T03:51:30.132Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             }
           ]
         }

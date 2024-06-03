@@ -13,7 +13,7 @@ using static System.Net.WebRequestMethods;
 
 namespace Kitchen_MVC.Repositores
 {
-    public class EmployeeRepository : IEmployeeRepository
+	public class EmployeeRepository : IEmployeeRepository
     {
         private readonly DataContext _dataContext;
         private readonly IMapper _mapper;
@@ -98,7 +98,12 @@ namespace Kitchen_MVC.Repositores
             return true;
         }
 
-        public async Task<Employee> GetEmployeeById(int id)
+		public async Task<List<EmployeeDTO>> GetAllEmployees()
+		{
+            return _mapper.Map<List<EmployeeDTO>>(_dataContext.Employees.OrderBy(e => e.Id).ToList());    
+		}
+
+		public async Task<Employee> GetEmployeeById(int id)
         {
             var res = await  _dataContext.Employees.FindAsync(id);
             if (res == null)

@@ -80,12 +80,31 @@ namespace Kitchen_MVC.Repositores
 			cartDetails.ForEach(x => cartDetailDTOs.Add(_mapper.Map<CartDetailDTO>(x)));
 			return cartDetailDTOs;
 		}
-		public async Task<Customer> GetCustomerById(int id)
+		public CustomerDTO GetCustomerById(int id)
 		{
-			var res = await _dataContext.Customers.FindAsync(id);
+			var res = _mapper.Map<CustomerDTO>(_dataContext.Customers.Where(c => c.Id==id).FirstOrDefault());
 			if (res == null)
 				throw new NotFoundException("Not find customer with id: " + id);
 			return res;
+		}
+
+		public async Task<bool> UpdateCustomer(int id, UpdateCustomerRequest request)
+		{
+			try
+			{
+				var customer = _dataContext.Customers.Find(id);
+				if(customer == null) throw new NotFoundException();
+				customer.Fullname = request.Fullname;
+				customer.PhoneNumber = request.PhoneNumber;
+				customer.Address = request.Address;
+				_dataContext.Update(customer);
+				_dataContext.SaveChangesAsync();
+				return true;
+			}
+			catch(Exception ex)
+			{
+				throw ex;
+			}
 		}
 	}
 }

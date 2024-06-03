@@ -18,5 +18,6 @@ namespace Kitchen_MVC.Interfaces
         Task<bool> DeleteEmployee(int id);
 
         Task<ICollection<Employee>> PagingEmployee(int? page, int? size);
+        Task<List<EmployeeDTO>> GetAllEmployees();
     }
 }

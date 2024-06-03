@@ -1,6 +1,9 @@
-﻿@{
+﻿﻿ @using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
 	ViewData["Title"] = "Home Page";
 	Kitchen_MVC.ViewModels.Header.HeaderViewModel headerData = ViewBag.HeaderData;
+	string IdUser = HttpContextAccessor.HttpContext.Session.GetString("IdUser");
 }
 @section Header {
 	@Html.Partial("Header", headerData)
@@ -15,7 +18,10 @@
 	<div class="container">
 		<div class="row">
 			<div id="sidebar" class="span3">
-				<div class="well well-small"><a id="myCart" href="product_summary.html"><img src="themes/images/ico-cart.png" alt="cart">3 Items in your cart  <span class="badge badge-warning pull-right">$155.00</span></a></div>
+				<div class="well well-small" >
+					<a id="myOrder" asp-controller="Order" asp-action="Index" asp-route-id="@IdUser">
+					<img src="~/themes/images/ico-cart.png" alt="cart"> View your Order  <span class="badge badge-warning pull-right">VIEW
+					</span></a></div>
 				<ul id="sideManu" class="nav nav-tabs nav-stacked">
 					@foreach (var categories in @Model.Categories)
 					{
@@ -94,9 +100,7 @@
 									</p>
 
 									<h4 style="text-align:center"><a class="btn" asp-controller="Product" asp-action="ProductDetail" asp-route-id="@Model.Products[i].Id"> <i class="icon-zoom-in"></i></a>
-										<a class="ajax-add-to-cart btn" data-id=@Model.Products[i].Id @* asp-controller="Cart" asp-action="AddToCart" asp-route-ProductId="@Model.Products[i].Id"
-										   asp-route-CustomerId="1" asp-route-Quantity="1" *@>Add to <i class="icon-shopping-cart"></i></a>
-										
+										<a class="ajax-add-to-cart btn" data-productid=@Model.Products[i].Id data-customerid=@IdUser>Add to <i class="icon-shopping-cart"></i></a>
 										<a class="btn btn-primary" href="#">$@Model.Products[i].Price.ToString("F0")</a></h4>
 								</div>
 							</div>
@@ -113,35 +117,60 @@
 	<script>
 		$(document).ready(function () {
 			$(".ajax-add-to-cart").click(function () {
-				$.ajax({
-					url: '@Url.Action("AddToCart", "Cart")',
-					type: 'POST',
-					data: {
-						ProductId: $(this).data("id"),
-						CustomerId: 1,
-						Quantity: 1
-					},
-					success: function (data) {
-						console.log(data);
-						Swal.fire({
-							position: "center",
-							icon: "success",
-							title: "Thêm vào giỏ hàng thành công",
-							showConfirmButton: false,
-							timer: 1500
-						});
-						$("#Cart_count").html("[ " + data.count + "] in your cart");
-					},
-					error: function () {
-						Swal.fire({
-							icon: "error",
-							title: "Oops...",
-							text: "Thêm vào giỏ hàng thất bại",
-							footer: '<a href="#">Reload lại trang?</a>'
-						});
-					}
-				});
+				var customerId = $(this).data("customerid");
+				if (customerId) {
+					$.ajax({
+						url: '@Url.Action("AddToCart", "Cart")',
+						type: 'POST',
+						data: {
+							ProductId: $(this).data("productid"),
+							CustomerId: $(this).data("customerid"),
+							Quantity: 1
+						},
+						success: function (data) {
+							console.log(data);
+							Swal.fire({
+								position: "center",
+								icon: "success",
+								title: "Thêm vào giỏ hàng thành công",
+								showConfirmButton: false,
+								timer: 1500
+							});
+							$("#Cart_count").html("[ " + data.count + "] in your cart");
+						},
+						error: function () {
+							Swal.fire({
+								icon: "error",
+								title: "Oops...",
+								text: "Thêm vào giỏ hàng thất bại",
+								footer: '<a href="#">Reload lại trang?</a>'
+							});
+						}
+					});
+				}else{
+					Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng",
+						footer: '<a href="/Account/Login">Đăng nhập ngay</a>'
+					});
+				}
+				
+			});
+			document.getElementById('myOrder').addEventListener('click', function (event) {
+				var Id = '@IdUser';
+				console.log(Id);
+				if (!Id) {
+					Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Bạn cần đăng nhập để xem thông tin này",
+						footer: '<a href="/Account/Login">Đăng nhập ngay</a>'
+					});
+					event.preventDefault();
+				}
 			});
 		});
+		
 	</script>
 }

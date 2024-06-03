@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * Bootstrap v2.2.1
  *
  * Copyright 2012 Twitter, Inc
@@ -10,9 +10,9 @@
 body{padding:0; font-size:13px;}
 a, a:hover{color:#262626; outline:0}
 .thumbnail img {
-    width: 200px; /* Đặt chiều rộng cố định */
-    height: 200px; /* Đặt chiều cao cố định */
-    object-fit: cover; /* Giữ tỷ lệ và cắt để vừa kích thước */
+    width: 200px; /* ??t chi?u r?ng c? ??nh */
+    height: 200px; /* ??t chi?u cao c? ??nh */
+    object-fit: cover; /* Gi? t? l? v� c?t ?? v?a k�ch th??c */
 }
 .thumbnail:hover{ border:1px solid #ddd}
 .thumbnail h4{line-height:42px}
