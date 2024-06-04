@@ -7,8 +7,9 @@ namespace Kitchen_MVC.Interfaces
     public interface ICustomerRepository
     {
         Task<bool> ActiveAccount(VerifyOTPRequest request);
-		Task<Customer> GetCustomerById(int id);
+		CustomerDTO GetCustomerById(int id);
         Task<List<CartDetailDTO>> GetCartDetailsByCustomerId(int id);
 		Task<bool> CreateCustomer(CreateCustomerRequest request);
+        Task<bool> UpdateCustomer(int id, UpdateCustomerRequest request);
 	}
 }

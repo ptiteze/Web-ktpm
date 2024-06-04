@@ -1,8 +1,11 @@
 ﻿@using Kitchen_MVC.DTO.Image
 @using Kitchen_MVC.DTO.Product
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
 @{
-	ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Proudct Detail";
 	Kitchen_MVC.ViewModels.Header.HeaderViewModel headerData = ViewBag.HeaderData;
+	string IdUser = HttpContextAccessor.HttpContext.Session.GetString("IdUser");
 }
 @section Header {
 	@Html.Partial("Header", headerData)
@@ -16,7 +19,13 @@
 	<div class="container">
 		<div class="row">
 			<div id="sidebar" class="span3">
-				<div class="well well-small"><a id="myCart" href="product_summary.html"><img src="themes/images/ico-cart.png" alt="cart">3 Items in your cart  <span class="badge badge-warning pull-right">$155.00</span></a></div>
+				<div class="well well-small">
+					<a id="myOrder" asp-controller="Order" asp-action="Index" asp-route-id="@IdUser">
+						<img src="~/themes/images/ico-cart.png" alt="cart"> View your Order  <span class="badge badge-warning pull-right">
+							VIEW
+						</span>
+					</a>
+				</div>				
 				<ul id="sideManu" class="nav nav-tabs nav-stacked">
 					@foreach (var categories in @Model.Categories)
 					{
@@ -37,7 +46,7 @@
 			<div class="span9">
 				<ul class="breadcrumb">
 					@* <li><a href="index.html">Home</a> <span class="divider">/</span></li> *@
-					<li><a href="~/Product/Index/">Products</a> <span class="divider">/</span></li>
+					<li><a asp-controller="Product" asp-action="index" asp-route-input='' asp-route-option="All">Products</a> <span class="divider">/</span></li>
 					<li class="active">product Details</li>
 				</ul>
 				<div class="row">
@@ -54,12 +63,12 @@
 									url3 = @Model.ImagesForProduct[2].Url;
 								}
 								<div class="item active">
-									<a href=@url1> <img style="width:20%" src=@url1 alt="" /></a>
-									<a href=@url2> <img style="width:20%" src=@url2 alt="" /></a>
-									<a href=@url3> <img style="width:20%" src=@url3 alt="" /></a>
+									<a target="_blank" href=@url1> <img style="width:20%" src=@url1 alt="" /></a>
+									<a target="_blank" href=@url2> <img style="width:20%" src=@url2 alt="" /></a>
+									<a target="_blank" href=@url3> <img style="width:20%" src=@url3 alt="" /></a>
 								</div>
-0								<div class="item">
-0									<a href=@url3> <img style="width:20%" src=@url3 alt="" /></a>
+								<div class="item">
+									<a href=@url3> <img style="width:20%" src=@url3 alt="" /></a>
 									<a href=@url1> <img style="width:20%" src=@url1 alt="" /></a>
 									<a href=@url2> <img style="width:20%" src=@url2 alt="" /></a>
 								</div>
@@ -85,8 +94,9 @@
 							<div class="control-group">
 								<label class="control-label"><span> $@Model.Product.Price </span></label>
 								<div class="controls">
-									<input type="number" class="span1" placeholder="Qty." min="0" , max=@Model.Product.Quantity />
-									<button type="submit" class="btn btn-large btn-primary pull-right"> Add to cart <i class=" icon-shopping-cart"></i></button>
+									<input type="number" class="span1" id="cartQuantity" placeholder="Qty." min="0" max=@Model.Product.Quantity value="0" />
+									<button type="button" class="ajax-add-to-cart-main btn btn-large btn-primary pull-right" 
+									data-productid=@Model.Product.Id data-customerid=@IdUser> Add to cart <i class=" icon-shopping-cart"></i></button>
 								</div>
 							</div>
 						</form>
@@ -194,8 +204,9 @@
 															<input type="checkbox">  Adds product to compair
 														</label><br />
 														<div class="btn-group">
-															<a href="~/" class="btn btn-large btn-primary"> Add to <i class=" icon-shopping-cart"></i></a>
-															<a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@Model.Products[i].Id class="btn btn-large"><i class="icon-zoom-in"></i></a>
+															@* <a href="~/" class="btn btn-large btn-primary"> Add to <i class=" icon-shopping-cart"></i></a> *@
+															<a class="ajax-add-to-cart btn btn-large btn-primary" data-productid=@Model.Products[i].Id data-customerid=@IdUser>Add to <i class="icon-shopping-cart"></i></a>
+															<a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@Model.Products[i].Id" class="btn btn-large"><i class="icon-zoom-in"></i></a>
 														</div>
 													</form>
 												</div>
@@ -222,7 +233,10 @@
 															<p>
 																@truncatedDes
 															</p>
-															<h4 style="text-align:center"><a class="btn" asp-controller="Product" asp-action="ProductDetail" asp-route-id="@Model.Products[i].Id"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">$@Model.Products[i].Price.ToString("F0") </a></h4>
+															<h4 style="text-align:center">
+															<a class="btn" asp-controller="Product" asp-action="ProductDetail" asp-route-id="@Model.Products[i].Id"> <i class="icon-zoom-in"></i></a>
+															<a class="ajax-add-to-cart btn" data-productid=@Model.Products[i].Id data-customerid=@IdUser>Add to <i class="icon-shopping-cart"></i></a>
+															<a class="btn btn-primary" href="#">$@Model.Products[i].Price.ToString("F0") </a></h4>
 														</div>
 													</div>
 												</li>
@@ -241,3 +255,116 @@
 		</div>
 	</div>
 </div>
+<!--scripts-->
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$(".ajax-add-to-cart").click(function () {
+				var customerId = $(this).data("customerid");
+				if (customerId) {
+					$.ajax({
+						url: '@Url.Action("AddToCart", "Cart")',
+						type: 'POST',
+						data: {
+							ProductId: $(this).data("productid"),
+							CustomerId: $(this).data("customerid"),
+							Quantity: 1
+						},
+						success: function (data) {
+							console.log(data);
+							Swal.fire({
+								position: "center",
+								icon: "success",
+								title: "Thêm vào giỏ hàng thành công",
+								showConfirmButton: false,
+								timer: 1500
+							});
+							$("#Cart_count").html("[ " + data.count + "] in your cart");
+						},
+						error: function () {
+							Swal.fire({
+								icon: "error",
+								title: "Oops...",
+								text: "Thêm vào giỏ hàng thất bại",
+								footer: '<a href="#">Reload lại trang?</a>'
+							});
+						}
+					});
+				} else {
+					Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng",
+						footer: '<a href="/Account/Login">Đăng nhập ngay</a>'
+					});
+				}
+
+			});
+			//main add to cart
+			$(".ajax-add-to-cart-main").click(function () {
+				var customerId = $(this).data("customerid");
+				var quantity = $('#cartQuantity').val();
+				if (customerId && (quantity > 0)) {
+					$.ajax({
+						url: '@Url.Action("AddToCart", "Cart")',
+						type: 'POST',
+						data: {
+							ProductId: $(this).data("productid"),
+							CustomerId: $(this).data("customerid"),
+							Quantity: quantity
+						},
+						success: function (data) {
+							console.log(data);
+							Swal.fire({
+								position: "center",
+								icon: "success",
+								title: "Thêm vào giỏ hàng thành công",
+								showConfirmButton: false,
+								timer: 1500
+							});
+							$("#Cart_count").html("[ " + data.count + "] in your cart");
+						},
+						error: function () {
+							Swal.fire({
+								icon: "error",
+								title: "Oops...",
+								text: "Thêm vào giỏ hàng thất bại",
+								footer: '<a href="#">Reload lại trang?</a>'
+							});
+						}
+					});
+				} else {
+					if (!customerId) {
+						Swal.fire({
+							icon: "error",
+							title: "Oops...",
+							text: "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng",
+							footer: '<a href="/Account/Login">Đăng nhập ngay</a>'
+						});
+					}else{
+						Swal.fire({
+							icon: "error",
+							title: "Oops...",
+							text: "Rất xin lỗi! Số lương trong kho của sản phẩm này không đủ đáp ứng",
+							footer: '<a href="/Home/Index">Lựa chọn sản phẩm khác</a>'
+						});
+					}
+				}
+
+			});
+			document.getElementById('myOrder').addEventListener('click', function (event) {
+				var Id = '@IdUser';
+				console.log(Id);
+				if (!Id) {
+					Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Bạn cần đăng nhập để xem thông tin này",
+						footer: '<a href="/Account/Login">Đăng nhập ngay</a>'
+					});
+					event.preventDefault();
+				}
+			});
+		});
+	</script>
+}

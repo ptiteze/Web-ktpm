@@ -45,13 +45,13 @@ namespace Kitchen_MVC.Repositores
 			return _context.CartDetails.Count(c => c.CustomerId == IdCustomer);
 		}
 
-		public async Task<List<CartDetailDTO>> GetCartDetailByIdCustomer(int id)
-		{
-			var cartDetails = _context.CartDetails.Where(c => c.CustomerId == id).ToList();
-			var cartDetailDTOs = new List<CartDetailDTO>();
-			cartDetails.ForEach(x => cartDetailDTOs.Add(_mapper.Map<CartDetailDTO>(x)));
-			return cartDetailDTOs;
-		}
+		//public async Task<List<CartDetailDTO>> GetCartDetailByIdCustomer(int id)
+		//{
+		//	var cartDetails = _context.CartDetails.Where(c => c.CustomerId == id).ToList();
+		//	var cartDetailDTOs = new List<CartDetailDTO>();
+		//	cartDetails.ForEach(x => cartDetailDTOs.Add(_mapper.Map<CartDetailDTO>(x)));
+		//	return cartDetailDTOs;
+		//}
 
 		public async Task<bool> UpdateCartDetail(int IdProduct, int IdCustomer, int Quantity)
 		{

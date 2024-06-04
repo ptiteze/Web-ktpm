@@ -5,6 +5,8 @@ using Kitchen_MVC.DTO.Category;
 using Kitchen_MVC.DTO.Customer;
 using Kitchen_MVC.DTO.Employee;
 using Kitchen_MVC.DTO.Image;
+using Kitchen_MVC.DTO.Order;
+using Kitchen_MVC.DTO.OrderDetail;
 using Kitchen_MVC.DTO.Product;
 using Kitchen_MVC.DTO.Role;
 using Kitchen_MVC.Models;
@@ -39,10 +41,15 @@ namespace Kitchen_MVC.Helper
             CreateMap<Customer, CustomerDTO>();
             CreateMap<CreateCustomerRequest, Customer>();
             //CartDetail
-            CreateMap<CartDetail, CategoryDTO>();
+            CreateMap<CartDetail, CartDetailDTO>();
             CreateMap<CreateCartDetailRequest, CartDetail>();
             CreateMap<UpdateCartDetailRequest, CartDetail>();
-
-        }
-    }
+            //Order
+            CreateMap<Order, OrderDTO>();
+            CreateMap<CreateOrderRequest, Order>();
+            //OrderDetail
+            CreateMap<Orderdetail, OrderDetailDTO>();
+            CreateMap<CreateOrderDetailRequest, Orderdetail>();
+		}
+	}
 }

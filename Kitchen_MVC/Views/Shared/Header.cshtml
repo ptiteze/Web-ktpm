@@ -4,6 +4,9 @@
 @{
 	string Fullname = HttpContextAccessor.HttpContext.Session.GetString("Fullname");
 	string Username = HttpContextAccessor.HttpContext.Session.GetString("Username");
+	string IdUser = HttpContextAccessor.HttpContext.Session.GetString("IdUser");
+	string Cartcount = HttpContextAccessor.HttpContext.Session.GetString("Cartcount");
+	string cartDisplay = string.IsNullOrEmpty(Fullname) ? "[ 0 ] in your cart" : $"[ {Cartcount} ] in your cart";
 }
 ﻿@using Kitchen_MVC.DTO.Category
 @model Kitchen_MVC.ViewModels.Header.HeaderViewModel
@@ -20,7 +23,7 @@
 					<a href="product_summary.html"><span>&pound;</span></a>
 					<span class="btn btn-mini">$0.00</span>
 					<a href="product_summary.html"><span class="">$</span></a>
-					<a href="product_summary.html"><span class="btn btn-mini btn-primary" id="Cart_count"><i class="icon-shopping-cart icon-white"></i> [ 0 ] in your cart </span> </a>
+					<a id="cartLink" data-iduser="@IdUser" href="@Url.Action("Index", "Cart", new { id = IdUser })"><span class="btn btn-mini btn-primary" id="Cart_count"><i class="icon-shopping-cart icon-white"></i> @cartDisplay </span> </a>
 				</div>
 			</div>
 		</div>
@@ -33,9 +36,9 @@
 			</a>
 			<div class="navbar-inner">
 				<a class="brand" href="~/Home/Index"><img src="~/themes/images/logo.png" alt="KitchenShop" /></a>
-				<form class="form-inline navbar-search" method="post" action="products.html">
-					<input id="srchFld" class="srchTxt" type="text" />
-					<select class="srchTxt">
+				<form class="form-inline navbar-search" method="post" action="~/Product/Index">
+					<input id="srchFld" class="srchTxt" type="text" name="input"/>
+					<select class="srchTxt" name="option">
 						<option>All</option>
 						@foreach(CategoryDTO item in Model.Categories)
 						{
@@ -89,3 +92,24 @@
 	</div>
 </div>
 <!-- Header End====================================================================== -->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		var cartLink = document.getElementById("cartLink");
+		var idUser = cartLink.getAttribute("data-iduser");
+
+		cartLink.addEventListener("click", function (event) {
+			if (!idUser) {
+				event.preventDefault(); // Ngăn chặn điều hướng nếu IdUser là null hoặc rỗng
+				Swal.fire({
+					icon: "error",
+					title: "Oops...",
+					text: "Bạn cần đăng nhập để truy cập vào giỏ hàng",
+					footer: '<a href="/Account/Login">Đăng nhập ngay</a>'
+				});
+			} else {
+				// Nếu idUser không null thì điều hướng đến href của thẻ <a>
+				window.location.href = this.href;
+			}
+		});
+	});
+</script>
