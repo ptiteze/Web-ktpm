@@ -5,25 +5,26 @@ using Kitchen_MVC.DTO.Order;
 using Kitchen_MVC.DTO.OrderDetail;
 using Kitchen_MVC.Interfaces;
 using Kitchen_MVC.Models;
+using Kitchen_MVC.Singleton;
 
 namespace Kitchen_MVC.Repositores
 {
 	public class OrderRepository : IOrderRepository
 	{
-		private readonly DataContext _dataContext;
-		private readonly IMapper _mapper;
-		public OrderRepository(DataContext dataContext, IMapper mapper)
+		//private readonly DataContext SingletonDataBridge.GetInstance();
+		//private readonly IMapper SingletonAutoMapper.GetInstance();
+		public OrderRepository(/*DataContext dataContext, IMapper mapper*/)
 		{
-			_dataContext = dataContext;
-			_mapper = mapper;
+			//SingletonDataBridge.GetInstance() = dataContext;
+			//SingletonAutoMapper.GetInstance() = mapper;
 		}
 		public async Task<int> CreateOrder(CreateOrderRequest request)
 		{
 			try
 			{
-				var order = _mapper.Map<Order>(request);
-				_dataContext.Add(order);
-				_dataContext.SaveChanges();
+				var order = SingletonAutoMapper.GetInstance().Map<Order>(request);
+				SingletonDataBridge.GetInstance().Add(order);
+				SingletonDataBridge.GetInstance().SaveChanges();
 				return order.Id;
 			}catch(Exception ex)
 			{
@@ -33,22 +34,22 @@ namespace Kitchen_MVC.Repositores
 
 		public List<OrderDTO> GetAllOrders()
 		{
-			return _mapper.Map<List<OrderDTO>>(_dataContext.Orders.OrderBy(o => o.Id).ToList());
+			return SingletonAutoMapper.GetInstance().Map<List<OrderDTO>>(SingletonDataBridge.GetInstance().Orders.OrderBy(o => o.Id).ToList());
 		}
 
 		public OrderDTO GetOrderById(int id)
 		{
-			return _mapper.Map<OrderDTO>(_dataContext.Orders.Where(o => o.Id == id).FirstOrDefault());
+			return SingletonAutoMapper.GetInstance().Map<OrderDTO>(SingletonDataBridge.GetInstance().Orders.Where(o => o.Id == id).FirstOrDefault());
 		}
 
 		public List<OrderDetailDTO> GetOrderDetailsByOrderId(int id)
 		{
-			return _mapper.Map<List<OrderDetailDTO>>(_dataContext.Orderdetails.Where(od => od.OrderId==id).ToList());
+			return SingletonAutoMapper.GetInstance().Map<List<OrderDetailDTO>>(SingletonDataBridge.GetInstance().Orderdetails.Where(od => od.OrderId==id).ToList());
 		}
 
 		public List<OrderDTO> GetOrdersByCustomerId(int id)
 		{
-			return _mapper.Map<List<OrderDTO>>(_dataContext.Orders.Where(o => o.CustomerId==id).ToList());
+			return SingletonAutoMapper.GetInstance().Map<List<OrderDTO>>(SingletonDataBridge.GetInstance().Orders.Where(o => o.CustomerId==id).ToList());
 		}
 	}
 }

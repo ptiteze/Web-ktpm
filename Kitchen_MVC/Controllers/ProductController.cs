@@ -3,6 +3,7 @@ using Kitchen_MVC.DTO.Image;
 using Kitchen_MVC.DTO.Product;
 using Kitchen_MVC.Interfaces;
 using Kitchen_MVC.Models;
+using Kitchen_MVC.Repositores;
 using Kitchen_MVC.ViewModels.Header;
 using Kitchen_MVC.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +14,14 @@ namespace Kitchen_MVC.Controllers
 	{
 		private readonly ICategoryRepository _clientCategory;
 		private readonly IProductRepository _clientProduct;
-		List<CategoryDTO> categories = new List<CategoryDTO> ();
 		public ProductController(ICategoryRepository clientCategory, IProductRepository clientProduct)
 		{
 			_clientCategory = clientCategory;
 			_clientProduct = clientProduct;
-			categories = _clientCategory.GetAllCategories();
 		}
 		public IActionResult Index(string input, string option)
-		{	 
+		{
+			List<CategoryDTO> categories = _clientCategory.GetAllCategories().Result;
 			List<ProductDTO> products = new List<ProductDTO>();
 			List<ProductDTO> productsAZ = new List<ProductDTO>();
 			if (!option.Equals("All"))
@@ -64,6 +64,7 @@ namespace Kitchen_MVC.Controllers
 		[HttpPost]
 		public IActionResult GetSortedProducts([FromBody] SortedProductRequest request)
 		{
+			List<CategoryDTO> categories = _clientCategory.GetAllCategories().Result;
 			var pros = request.products;
 			Console.WriteLine(pros.Count);
 			var listpr = GetProductsSorted(request);
@@ -107,6 +108,7 @@ namespace Kitchen_MVC.Controllers
 		}
 		public IActionResult ProductDetail(int id)
 		{
+			List<CategoryDTO> categories = _clientCategory.GetAllCategories().Result;
 			ProductDTO product = _clientProduct.GetProductById(id);
 			List<ProductDTO> products = _clientCategory.GetProductsByCategoryId(product.CategoryId);
 			List<ImageDTO> imageforProduct = _clientProduct.GetImageById(id);

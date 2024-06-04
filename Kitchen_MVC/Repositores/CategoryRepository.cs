@@ -5,19 +5,20 @@ using Kitchen_MVC.DTO.Category;
 using Kitchen_MVC.DTO.Product;
 using Kitchen_MVC.Interfaces;
 using Kitchen_MVC.Models;
+using Kitchen_MVC.Singleton;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Kitchen_MVC.Repositores
 {
 	public class CategoryRepository : ICategoryRepository
     {
-        private readonly DataContext _dataContext;
-        private readonly IMapper _mapper;
+        //private readonly DataContext SingletonDataBridge.GetInstance();
+        //private readonly IMapper SingletonAutoMapper.GetInstance();
 
-        public CategoryRepository(DataContext dataContext, IMapper mapper)
+        public CategoryRepository(/*DataContext dataContext, IMapper mapper*/)
         {
-            _dataContext = dataContext;
-            _mapper = mapper;
+            //SingletonDataBridge.GetInstance() = dataContext;
+            //SingletonAutoMapper.GetInstance() = mapper;
         }
 
         public async Task<bool> CreateCategory(CreateCategoryRequest request)
@@ -25,10 +26,10 @@ namespace Kitchen_MVC.Repositores
             bool isSuccess = false;
             try
             {
-                var category = _mapper.Map<Category>(request);
+                var category = SingletonAutoMapper.GetInstance().Map<Category>(request);
 
-                _dataContext.Categories.Add(category);
-                await _dataContext.SaveChangesAsync();
+                SingletonDataBridge.GetInstance().Categories.Add(category);
+                await SingletonDataBridge.GetInstance().SaveChangesAsync();
                 isSuccess = true;
             }
             catch (Exception) { 
@@ -42,20 +43,20 @@ namespace Kitchen_MVC.Repositores
             bool isSuccess = false;
             try
             {
-                var category = _dataContext.Categories.Find(id);
+                var category = SingletonDataBridge.GetInstance().Categories.Find(id);
 
                 if (category == null)
                 {
                     throw new NotFoundException("Category don't exists");
                 }
 
-                var products = _dataContext.Products.Where(x => x.CategoryId == id);
+                var products = SingletonDataBridge.GetInstance().Products.Where(x => x.CategoryId == id);
                 if (!products.IsNullOrEmpty())
                 {
                     throw new InvalidRequestException("No delete category because it exist product");
                 }
-                _dataContext.Categories.Remove(category);
-                await _dataContext.SaveChangesAsync();
+                SingletonDataBridge.GetInstance().Categories.Remove(category);
+                await SingletonDataBridge.GetInstance().SaveChangesAsync();
                 isSuccess=true;
             }
             catch (Exception)
@@ -65,19 +66,24 @@ namespace Kitchen_MVC.Repositores
             return isSuccess;
         }
 
-        public List<CategoryDTO> GetAllCategories()
+        public async Task<List<CategoryDTO>> GetAllCategories()
         {
-            return _mapper.Map<List<CategoryDTO>>(_dataContext.Categories.ToList());
+            var categories = SingletonDataBridge.GetInstance().Categories.ToList();
+
+			return SingletonAutoMapper.GetInstance().Map<List<CategoryDTO>>(categories);
         }
 
         public CategoryDTO GetCategoryById(int id)
         {
-            return _mapper.Map<CategoryDTO>(_dataContext.Categories.Find(id));
+            var cartegory = SingletonDataBridge.GetInstance().Categories.Find(id);
+
+			return SingletonAutoMapper.GetInstance().Map<CategoryDTO>(cartegory);
         }
 
 		public List<ProductDTO> GetProductsByCategoryId(int id)
 		{
-			return _mapper.Map<List<ProductDTO>>(_dataContext.Products.Where(p  => p.CategoryId == id && p.Status==true).ToList());
+            var products = SingletonDataBridge.GetInstance().Products.Where(p => p.CategoryId == id && p.Status == true).ToList();
+			return SingletonAutoMapper.GetInstance().Map<List<ProductDTO>>(products);
 		}
 
 		public async Task<bool> UpdateCategory(int id,UpdateCategoryRequest request)
@@ -85,15 +91,15 @@ namespace Kitchen_MVC.Repositores
             bool isSuccess = false;
             try
             {
-                var category = _dataContext.Categories.Find(id);
+                var category = SingletonDataBridge.GetInstance().Categories.Find(id);
 
                 if (category == null)
                 {
                     throw new NotFoundException();
                 }
                 category.Name = request.Name;
-                _dataContext.Categories.Update(category);
-                await _dataContext.SaveChangesAsync();
+                SingletonDataBridge.GetInstance().Categories.Update(category);
+                await SingletonDataBridge.GetInstance().SaveChangesAsync();
                 isSuccess = true;
             }
             catch(Exception ex)

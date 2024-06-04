@@ -178,7 +178,7 @@ namespace Kitchen_MVC.Controllers
         public ActionResult ChangeInfo(String id)
         {
             int IdUser = int.Parse(id);
-			List<CategoryDTO> categories = _categoryRepository.GetAllCategories();
+			List<CategoryDTO> categories = _categoryRepository.GetAllCategories().Result;
             CustomerDTO customer = _customerRepository.GetCustomerById(IdUser);
 			var headerViewModel = new HeaderViewModel()
 			{

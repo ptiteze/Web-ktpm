@@ -3,25 +3,26 @@ using Kitchen_MVC.Data;
 using Kitchen_MVC.DTO.OrderDetail;
 using Kitchen_MVC.Interfaces;
 using Kitchen_MVC.Models;
+using Kitchen_MVC.Singleton;
 
 namespace Kitchen_MVC.Repositores
 {
 	public class OrderdetailRepository : IOrderdetailRepository
 	{
-		private readonly DataContext _dataContext;
-		private readonly IMapper _mapper;
-		public OrderdetailRepository(DataContext dataContext, IMapper mapper)
+		//private readonly DataContext SingletonDataBridge.GetInstance();
+		//private readonly IMapper SingletonAutoMapper.GetInstance();
+		public OrderdetailRepository(/*DataContext dataContext, IMapper mapper*/)
 		{
-			_dataContext = dataContext;
-			_mapper = mapper;
+			//SingletonDataBridge.GetInstance() = dataContext;
+			//SingletonAutoMapper.GetInstance() = mapper;
 		}
 		public async Task<bool> CreateOrderDetail(CreateOrderDetailRequest request)
 		{
 			try
 			{
-				var orderdetail = _mapper.Map<Orderdetail>(request);
-				_dataContext.Add(orderdetail);
-				_dataContext.SaveChanges();
+				var orderdetail = SingletonAutoMapper.GetInstance().Map<Orderdetail>(request);
+				SingletonDataBridge.GetInstance().Add(orderdetail);
+				SingletonDataBridge.GetInstance().SaveChanges();
 				return true;
 			}
 			catch (Exception ex)

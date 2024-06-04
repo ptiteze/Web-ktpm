@@ -3,46 +3,47 @@ using Kitchen_MVC.Data;
 using Kitchen_MVC.DTO.CartDetail;
 using Kitchen_MVC.Interfaces;
 using Kitchen_MVC.Models;
+using Kitchen_MVC.Singleton;
 
 namespace Kitchen_MVC.Repositores
 {
 	public class CartDetailRepository : ICartDetailRepository
 	{
-		private readonly DataContext _context;
-		private readonly IMapper _mapper;
-		public CartDetailRepository(DataContext context, IMapper mapper)
+		//private readonly DataContext _context;
+		//private readonly IMapper _mapper;
+		public CartDetailRepository(/*DataContext context, IMapper mapper*/)
 		{
-			_context = context;
-			_mapper = mapper;
+			//_context = context;
+			//_mapper = mapper;
 		}
 
 		public bool CartExists(int idProduct, int IdCustomer)
 		{
-			var cartDetail = _context.CartDetails.Where(c => c.ProductId == idProduct && c.CustomerId == IdCustomer).FirstOrDefault();
+			var cartDetail = SingletonDataBridge.GetInstance().CartDetails.Where(c => c.ProductId == idProduct && c.CustomerId == IdCustomer).FirstOrDefault();
 			if (cartDetail == null) return false;
 			return true;
 		}
 
 		public async Task<bool> CreateCartDetail(CreateCartDetailRequest request)
 		{
-			CartDetail cartDetail = _mapper.Map<CartDetail>(request);
-			_context.Add(cartDetail);
-			_context.SaveChanges();
+			CartDetail cartDetail = SingletonAutoMapper.GetInstance().Map<CartDetail>(request);
+			SingletonDataBridge.GetInstance().Add(cartDetail);
+			SingletonDataBridge.GetInstance().SaveChanges();
 			return true;
 		}
 
 		public async Task<bool> DeleteCartDetail(int idProduct, int idCustomer)
 		{
-			var cartDetail = _context.CartDetails.Where(c => c.ProductId == idProduct && c.CustomerId == idCustomer).FirstOrDefault();
+			var cartDetail = SingletonDataBridge.GetInstance().CartDetails.Where(c => c.ProductId == idProduct && c.CustomerId == idCustomer).FirstOrDefault();
 			if (cartDetail == null) return false;
-			_context.Remove(cartDetail);
-			_context.SaveChanges();
+			SingletonDataBridge.GetInstance().Remove(cartDetail);
+			SingletonDataBridge.GetInstance().SaveChanges();
 			return true;
 		}
 
 		public int GetCartCount(int IdCustomer)
 		{
-			return _context.CartDetails.Count(c => c.CustomerId == IdCustomer);
+			return SingletonDataBridge.GetInstance().CartDetails.Count(c => c.CustomerId == IdCustomer);
 		}
 
 		//public async Task<List<CartDetailDTO>> GetCartDetailByIdCustomer(int id)
@@ -55,10 +56,10 @@ namespace Kitchen_MVC.Repositores
 
 		public async Task<bool> UpdateCartDetail(int IdProduct, int IdCustomer, int Quantity)
 		{
-			var cartDetail = _context.CartDetails.Where(c => c.ProductId == IdProduct && c.CustomerId == IdCustomer).FirstOrDefault();
+			var cartDetail = SingletonDataBridge.GetInstance().CartDetails.Where(c => c.ProductId == IdProduct && c.CustomerId == IdCustomer).FirstOrDefault();
 			if (cartDetail == null) return false;
 			cartDetail.Quantity = Quantity;
-			_context.Update(cartDetail);
+			SingletonDataBridge.GetInstance().Update(cartDetail);
 			return true;
 		}
 	}

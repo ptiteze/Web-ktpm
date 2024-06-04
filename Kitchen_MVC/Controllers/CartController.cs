@@ -18,7 +18,7 @@ namespace Kitchen_MVC.Controllers
 		private readonly IOrderRepository _orderRepository;
 		private readonly IProductRepository _productRepository;
 		private readonly ICategoryRepository _categoryRepository;
-		List<CategoryDTO> categories = new List<CategoryDTO>();
+		
 		public CartController(ICartDetailRepository cartDetailRepository, ICustomerRepository customerRepository, IOrderRepository orderRepository, IProductRepository productRepository, ICategoryRepository categoryRepository)
 		{
 			_cartDetailRepository = cartDetailRepository;
@@ -26,7 +26,6 @@ namespace Kitchen_MVC.Controllers
 			_orderRepository = orderRepository;
 			_productRepository = productRepository;
 			_categoryRepository = categoryRepository;
-			categories = _categoryRepository.GetAllCategories();
 		}
 		[HttpPost]
 		public IActionResult AddToCart(int ProductId, int CustomerId, int Quantity)
@@ -56,6 +55,7 @@ namespace Kitchen_MVC.Controllers
 		public IActionResult Index(string id)
 		{
 			int Idcustomer = int.Parse(id);
+			List<CategoryDTO> categories = _categoryRepository.GetAllCategories().Result;
 			CustomerDTO customer = _customerRepository.GetCustomerById(Idcustomer);
 			List<CartDetailDTO> cartDetails = _customerRepository.GetCartDetailsByCustomerId(Idcustomer).Result;
 			List<ProductDTO> products = new List<ProductDTO>();

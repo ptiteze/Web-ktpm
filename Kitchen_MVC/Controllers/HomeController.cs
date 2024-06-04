@@ -33,7 +33,7 @@ namespace Kitchen_MVC.Controllers
 		public IActionResult Index()
 		{
 
-			List<CategoryDTO> categories = _clientCategory.GetAllCategories();
+			List<CategoryDTO> categories = _clientCategory.GetAllCategories().Result;
 			List<ProductDTO> products = _clientProduct.GetAllProducts();
 			List<ImageDTO> images = new List<ImageDTO>();
 			foreach (ProductDTO product in products)
@@ -59,7 +59,7 @@ namespace Kitchen_MVC.Controllers
 
 		public IActionResult ByCategory(int id)
 		{
-			List<CategoryDTO> categories = _clientCategory.GetAllCategories();
+			List<CategoryDTO> categories = _clientCategory.GetAllCategories().Result;
 			List<ProductDTO> products = _clientCategory.GetProductsByCategoryId(id);
 			List<ImageDTO> images = new List<ImageDTO>();
 			CategoryDTO category = _clientCategory.GetCategoryById(id);
@@ -85,7 +85,7 @@ namespace Kitchen_MVC.Controllers
 		}
 		public IActionResult Contact()
 		{
-			List<CategoryDTO> categories = _clientCategory.GetAllCategories();
+			List<CategoryDTO> categories = _clientCategory.GetAllCategories().Result;
 			var headerViewModel = new HeaderViewModel()
 			{
 				Categories = categories
@@ -95,7 +95,7 @@ namespace Kitchen_MVC.Controllers
 		}
 		public IActionResult Login()
 		{
-			List<CategoryDTO> categories = _clientCategory.GetAllCategories();
+			List<CategoryDTO> categories = _clientCategory.GetAllCategories().Result;
 			var headerViewModel = new HeaderViewModel()
 			{
 				Categories = categories

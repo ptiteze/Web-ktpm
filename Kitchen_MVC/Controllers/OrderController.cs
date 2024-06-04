@@ -70,7 +70,7 @@ namespace Kitchen_MVC.Controllers
 		public IActionResult Index(string id)
 		{
 			int IdCustomer = int.Parse(id);
-			List<CategoryDTO> categories = _categoryRepository.GetAllCategories();
+			List<CategoryDTO> categories = _categoryRepository.GetAllCategories().Result;
 			CustomerDTO customer = _customerRepository.GetCustomerById(IdCustomer);
 			List<OrderDTO> orders = _orderRepository.GetOrdersByCustomerId(IdCustomer);
 			List<EmployeeDTO> employees = _employeeRepository.GetAllEmployees().Result;
@@ -92,7 +92,7 @@ namespace Kitchen_MVC.Controllers
 		{
 			OrderDTO order = _orderRepository.GetOrderById(id);
 			CustomerDTO customer = _customerRepository.GetCustomerById(order.CustomerId);
-			List<CategoryDTO> categories = _categoryRepository.GetAllCategories();
+			List<CategoryDTO> categories = _categoryRepository.GetAllCategories().Result;
 			List<OrderDetailDTO> orderDetails = _orderRepository.GetOrderDetailsByOrderId(id);
 			List<ProductDTO> products = new List<ProductDTO>();
 			Dictionary<int, string> images = new Dictionary<int, string>(); // idProduct, ImageURL

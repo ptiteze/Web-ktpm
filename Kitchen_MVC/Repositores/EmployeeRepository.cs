@@ -8,6 +8,7 @@ using Kitchen_MVC.DTO.Mail;
 using Kitchen_MVC.Interfaces;
 using Kitchen_MVC.Models;
 using Kitchen_MVC.Services;
+using Kitchen_MVC.Singleton;
 using Microsoft.EntityFrameworkCore;
 using static System.Net.WebRequestMethods;
 
@@ -15,18 +16,18 @@ namespace Kitchen_MVC.Repositores
 {
 	public class EmployeeRepository : IEmployeeRepository
     {
-        private readonly DataContext _dataContext;
-        private readonly IMapper _mapper;
+        //private readonly DataContext SingletonDataBridge.GetInstance();
+        //private readonly IMapper SingletonAutoMapper.GetInstance();
         private readonly IUploadService _upload;
         private readonly IMailService _mail;
         private readonly IOtpService _otp;
         private readonly IAccountRepository _accountRepository;
 
-        public EmployeeRepository(DataContext dataContext, IMapper mapper, IUploadService upload
+        public EmployeeRepository(/*DataContext dataContext, IMapper mapper,*/ IUploadService upload
             , IMailService mail, IOtpService otp, IAccountRepository accountRepository)
         {
-            _dataContext = dataContext;
-            _mapper = mapper;
+            //SingletonDataBridge.GetInstance() = dataContext;
+            //SingletonAutoMapper.GetInstance() = mapper;
             _upload = upload;
             _mail = mail;
             _otp = otp;
@@ -35,9 +36,9 @@ namespace Kitchen_MVC.Repositores
 
         public async Task<bool> CreateEmployee(CreateEmployeeRequest request)
         {
-            Employee employee = _mapper.Map<Employee>(request);
+            Employee employee = SingletonAutoMapper.GetInstance().Map<Employee>(request);
             // Quản trị viên, Khách hàng, Nhân viên
-            var roleEmployee = await _dataContext.Roles.FindAsync(3);
+            var roleEmployee = await SingletonDataBridge.GetInstance().Roles.FindAsync(3);
             var account = new Account()
             {
                 Email = request.Email,
@@ -55,9 +56,9 @@ namespace Kitchen_MVC.Repositores
             employee.EmailNavigation = account;
             account.Employees.Add(employee);
 
-            _dataContext.Add(account);
-            _dataContext.Add(employee);
-            _dataContext.SaveChanges();
+            SingletonDataBridge.GetInstance().Add(account);
+            SingletonDataBridge.GetInstance().Add(employee);
+            SingletonDataBridge.GetInstance().SaveChanges();
             //generate otp
             var otp = _otp.GenerateOTP();
 
@@ -69,8 +70,8 @@ namespace Kitchen_MVC.Repositores
             //    ExpiredAt = DateTime.Now.AddMinutes(TOKEN_TYPE.OTP_EXPIRY_MINUTES)
             //};
 
-            //_dataContext.AppUserTokens.Add(userToken);
-            //await _dataContext.SaveChangesAsync();
+            //SingletonDataBridge.GetInstance().AppUserTokens.Add(userToken);
+            //await SingletonDataBridge.GetInstance().SaveChangesAsync();
 
             //Send mail confirm
             var title = "Xác nhận đăng ký tài khoản";
@@ -88,24 +89,24 @@ namespace Kitchen_MVC.Repositores
 
         public async Task<bool> DeleteEmployee(int id)
         {
-            var employee = await _dataContext.Employees.FindAsync(id)
+            var employee = await SingletonDataBridge.GetInstance().Employees.FindAsync(id)
                 ?? throw new NotFoundException("Khong tim thay employee by " + id);
 
-            var account = _dataContext.Accounts.FirstOrDefault(x => x.Email == employee.Email);
+            var account = SingletonDataBridge.GetInstance().Accounts.FirstOrDefault(x => x.Email == employee.Email);
             account.Status = false;
-            _dataContext.Accounts.Update(account);
-            _dataContext.SaveChanges();
+            SingletonDataBridge.GetInstance().Accounts.Update(account);
+            SingletonDataBridge.GetInstance().SaveChanges();
             return true;
         }
 
 		public async Task<List<EmployeeDTO>> GetAllEmployees()
 		{
-            return _mapper.Map<List<EmployeeDTO>>(_dataContext.Employees.OrderBy(e => e.Id).ToList());    
+            return SingletonAutoMapper.GetInstance().Map<List<EmployeeDTO>>(SingletonDataBridge.GetInstance().Employees.OrderBy(e => e.Id).ToList());    
 		}
 
 		public async Task<Employee> GetEmployeeById(int id)
         {
-            var res = await  _dataContext.Employees.FindAsync(id);
+            var res = await  SingletonDataBridge.GetInstance().Employees.FindAsync(id);
             if (res == null)
                 throw new NotFoundException("Not find employee with id: " + id);
             return res;
@@ -113,7 +114,7 @@ namespace Kitchen_MVC.Repositores
 
         public ICollection<Employee> ListEmployee()
         {
-            return _dataContext.Employees.ToList();
+            return SingletonDataBridge.GetInstance().Employees.ToList();
         }
 
         public Task<ICollection<Employee>> PagingEmployee(int? page, int? size)
@@ -126,17 +127,17 @@ namespace Kitchen_MVC.Repositores
 
         public async Task<bool> UpdateEmployee(int productId, UpdateEmployeeRequest request)
         {
-            var employee = await _dataContext.Employees.FindAsync(productId)
+            var employee = await SingletonDataBridge.GetInstance().Employees.FindAsync(productId)
                 ?? throw new NotFoundException("Khong tim thay san pham by " + productId);
 
-            employee = _mapper.Map(request, employee);
+            employee = SingletonAutoMapper.GetInstance().Map(request, employee);
 
             if(request.Image != null)
             {
                 employee.Image = await _upload.UploadFile(request.Image);
             }
-            _dataContext.Employees.Update(employee);
-            _dataContext.SaveChanges();
+            SingletonDataBridge.GetInstance().Employees.Update(employee);
+            SingletonDataBridge.GetInstance().SaveChanges();
             return true;
         }
     }

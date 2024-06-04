@@ -14,7 +14,7 @@ namespace Kitchen_MVC.Interfaces
 
         Task<bool> DeleteCategory(int id);
 
-        List<CategoryDTO> GetAllCategories();
+        Task<List<CategoryDTO>> GetAllCategories();
         List<ProductDTO> GetProductsByCategoryId(int id);
     }
 }
