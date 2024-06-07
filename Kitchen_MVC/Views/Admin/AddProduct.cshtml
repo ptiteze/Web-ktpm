@@ -27,6 +27,9 @@
                     <li>
                         <a asp-controller="Admin" asp-action="ManageOrder"> Quản lý Order</a>
                     </li>
+                    <li>
+                        <a asp-controller="Admin" asp-action="ManageImage"> Quản lý Ảnh Sản Phẩm</a>
+                    </li>
                 </ul>
                 <br />
 
@@ -69,18 +72,10 @@
                         </div>
                     </div>
                     <div class="row my-3">
-                        <label for="category">Category:</label>
-                        <select id="category" name="category" asp-for="request.CategoryId">
-                            @for (int i = 0; i < Model.Categories.Count; i++)
-                            {
-                                <option value="@Model.Categories[i].Id">@Model.Categories[i].Name</option>
-                            }
+                        <label asp-for="request.Name">Product:</label>
+                        <select asp-for="request.CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
                         </select>
-                       
-                       @* <label asp-for="request.CategoryId">Category</label>
-                        <select id="category" name="category" asp-for="request.CategoryId"
-                                asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
-                        </select> *@
+                        
                     </div>
 
                     <div class="text-center mb-3">

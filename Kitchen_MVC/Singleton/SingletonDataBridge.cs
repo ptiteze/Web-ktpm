@@ -12,15 +12,11 @@ namespace Kitchen_MVC.Singleton
 		}
 		public static DataContext GetInstance()
 		{
-			if (uniqueInstance == null) { 
-				lock (_lock)
-				{
+
 					if (uniqueInstance == null)
 					{
 						uniqueInstance = new DataContext();
-					}
-				}
-			}
+					}	
 			return uniqueInstance;
 		}
 	}

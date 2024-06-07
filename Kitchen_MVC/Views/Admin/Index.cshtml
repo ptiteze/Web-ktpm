@@ -49,6 +49,9 @@
 					<li>
 						<a asp-controller="Admin" asp-action="ManageOrder"> Quản lý Order</a>
 					</li>
+					<li>
+						<a asp-controller="Admin" asp-action="ManageImage"> Quản lý Ảnh Sản Phẩm</a>
+					</li>
 				</ul>
 				<br />
 
@@ -66,32 +69,9 @@
 						</div>
 						<div class="card-header">
 							<i class="fas fa-table me-1"></i>
-							Danh sách sản phẩm
+							Chào mừng đến trang admin
 						</div>
-						<div class="card-body">
-							<table id="datatablesSimple">
-								<thead>
-									<tr>
-										<th>Mã sản phẩm</th>
-										<th>Name</th>
-										<th>Sửa</th>
-										<th>Xóa</th>
-									</tr>
-								</thead>
-
-								<tbody>
-									@* @for (int i = 0; i < Model.Categories.Count; i++)
-									{
-									<tr>
-									<td>@Model.Categories[i].Id</td>
-									<td>@Model.Categories[i].Name</td>
-									<td><a asp-controller="Admin" asp-action="EditProduct" asp-route-id="@Model.Categories[i].Id"><i class="fa-solid fa-pen-to-square"></i></a></td>
-									<td><a asp-controller="Admin" asp-action="DeleteProduct" asp-route-id="@Model.Categories[i].Id"><i class="fa-solid fa-trash"></i></a></td>
-									</tr>
-									} *@
-								</tbody>
-							</table>
-						</div>
+					
 					</div>
 				</div>
 			</div>

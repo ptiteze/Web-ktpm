@@ -8,6 +8,8 @@ using Kitchen_MVC.ViewModels.Admin;
 using Microsoft.IdentityModel.Tokens;
 using Kitchen_MVC.ViewModels.Customer;
 using Kitchen_MVC.ViewModels.Order;
+using Kitchen_MVC.ViewModels.Image;
+using Kitchen_MVC.DTO.Image;
 
 namespace Kitchen_MVC.Controllers
 {
@@ -18,8 +20,9 @@ namespace Kitchen_MVC.Controllers
 		private readonly ICustomerRepository _customerRepository;
 		private readonly IOrderRepository _orderRepository;
 		private readonly IEmployeeRepository _employeeRepository;
+		private readonly IImageRepository _imageRepository;
 
-		public AdminController(IProductRepository productRepository, ICategoryRepository categoryRepository,
+		public AdminController(IProductRepository productRepository, ICategoryRepository categoryRepository,IImageRepository imageRepository,
 			ICustomerRepository customerRepository, IOrderRepository orderRepository, IEmployeeRepository employeeRepository)
 		{
 			_customerRepository = customerRepository;
@@ -27,6 +30,7 @@ namespace Kitchen_MVC.Controllers
 			_categoryRepository = categoryRepository;
 			_orderRepository = orderRepository;
 			_employeeRepository = employeeRepository;
+			_imageRepository = imageRepository;
 		}
 
 		public IActionResult Index()
@@ -85,8 +89,7 @@ namespace Kitchen_MVC.Controllers
 			{
 				return View(request);
 			}
-			Console.WriteLine(request.CategoryId);
-			request.CategoryId = 3;
+			//request.CategoryId = 3;
 			var res = _productRepository.CreateProduct(request);
 			return RedirectToAction("Index", "Admin");
 		}
@@ -178,9 +181,28 @@ namespace Kitchen_MVC.Controllers
 
 		public IActionResult ConfirmOrder(int id)
 		{
-
-			return RedirectToAction("ManageOrder", "Admin");
+			var res = _orderRepository.ConfirmOrder(id);
+			return RedirectToAction("Index", "Admin");
 		}
+
+		//Image
+		[HttpGet]
+		public async Task<IActionResult> ManageImage()
+		{
+
+            List<ProductDTO> products = await _productRepository.GetAllProducts();
+            AddImageViewModel Model = new AddImageViewModel()
+            {
+                Products = products,
+            };
+            return View(Model);
+		}
+		[HttpPost]
+		public async Task<IActionResult> ManageImage(CreateImageRequest request)
+		{
+			var res = await _imageRepository.CreateImage(request);
+            return RedirectToAction("Index", "Admin");
+        }
 	}
 }
 

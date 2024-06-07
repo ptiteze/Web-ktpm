@@ -38,10 +38,24 @@ namespace Kitchen_MVC.Controllers
 			List<ImageDTO> images = new List<ImageDTO>();
 			foreach (ProductDTO product in products)
 			{
-				List<ImageDTO> imagesTemp = _clientProduct.GetImageById(product.Id);
-				if (imagesTemp != null && imagesTemp.Count > 0)
-					images.Add(imagesTemp[0]);
-			}
+                List<ImageDTO> imagesTemp = _clientProduct.GetImageById(product.Id);
+                //if (imagesTemp != null && imagesTemp.Count > 0)
+                //	images.Add(imagesTemp[0]);
+                if (imagesTemp != null && imagesTemp.Count > 0)
+                {
+                    images.Add(imagesTemp[0]);
+                }
+                else
+                {
+                    var Image = new ImageDTO()
+                    {
+                        Id = 0,
+                        ProductId = product.Id,
+                        Url = "https://png.pngtree.com/background/20210715/original/pngtree-white-border-texture-textured-background-picture-image_1290377.jpg"
+                    };
+                    images.Add(Image);
+                }
+            }
 			var headerViewModel = new HeaderViewModel()
 			{
 				Categories = categories
