@@ -36,10 +36,10 @@ namespace Kitchen_MVC.Controllers
 			_categoryRepository = categoryRepository;
 			_employeeRepository = employeeRepository;
 		}
-		public IActionResult CompleteOrder(int id)
+		public async Task<IActionResult> CompleteOrder(int id)
 		{
 			List<CartDetailDTO> cartDetails = _customerRepository.GetCartDetailsByCustomerId(id).Result;
-			List<ProductDTO> products = _productRepository.GetAllProducts();
+			List<ProductDTO> products = await _productRepository.GetAllProducts();
 			CreateOrderRequest request = new CreateOrderRequest()
 			{
 				CustomerId = id,

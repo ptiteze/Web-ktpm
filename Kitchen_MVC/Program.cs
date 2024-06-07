@@ -3,6 +3,7 @@ using Kitchen_MVC.DependencyInjection.Extensions;
 using Kitchen_MVC.Helper;
 using Kitchen_MVC.Singleton;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddConfigureApplication();
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+
+//c?u hình logger factory method
+Log.Logger = new LoggerConfiguration()
+	.ReadFrom.Configuration(builder.Configuration)
+	.CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(options =>

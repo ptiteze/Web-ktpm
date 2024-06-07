@@ -24,15 +24,22 @@ namespace Kitchen_MVC.Repositores
 
         public Task<bool> CreateProduct(CreateProductRequest request)
         {
-            throw new NotImplementedException();
+            var product = SingletonAutoMapper.GetInstance().Map<Product>(request);
+
+            SingletonDataBridge.GetInstance().Products.Add(product);
+            SingletonDataBridge.GetInstance().SaveChangesAsync();
+            return Task.FromResult(true);
         }
 
-        public Task<bool> DeleteProduct(int id)
+        public async Task<bool> DeleteProduct(int id)
         {
-            throw new NotImplementedException();
+            var product = await SingletonDataBridge.GetInstance().Products.FindAsync(id);
+            SingletonDataBridge.GetInstance().Products.Remove(product);
+            await SingletonDataBridge.GetInstance().SaveChangesAsync();
+            return true;
         }
 
-        public List<ProductDTO> GetAllProducts()
+        public async Task<List<ProductDTO>> GetAllProducts()
         {
 
             var products = SingletonDataBridge.GetInstance().Products.Where(p => p.Status == true).ToList();
@@ -56,9 +63,18 @@ namespace Kitchen_MVC.Repositores
             return SingletonAutoMapper.GetInstance().Map<ProductDTO>(product);
         }
 
-        public Task<bool> UpdateProduct(int id, UpdateProductRequest request)
+        public async Task<bool> UpdateProduct(int id, UpdateProductRequest request)
         {
-            throw new NotImplementedException();
+            var product = SingletonDataBridge.GetInstance().Products.Find(id);
+
+            product.Description = request.Description;
+            product.Price = request.Price;
+            product.Name = request.Name;
+            product.Quantity = request.Quantity;
+
+            SingletonDataBridge.GetInstance().Products.Update(product);
+            await SingletonDataBridge.GetInstance().SaveChangesAsync();
+            return true;
         }
     }
 }

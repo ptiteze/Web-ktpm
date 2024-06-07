@@ -2,13 +2,13 @@ using AutoMapper;
 using Kitchen_MVC.DTO.Category;
 using Kitchen_MVC.DTO.Image;
 using Kitchen_MVC.DTO.Product;
+using Kitchen_MVC.FactoryMethod;
 using Kitchen_MVC.Interfaces;
 using Kitchen_MVC.Models;
 using Kitchen_MVC.ViewModels.Header;
 using Kitchen_MVC.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Kitchen_MVC.Controllers
 {
@@ -17,10 +17,10 @@ namespace Kitchen_MVC.Controllers
 		private readonly ILogger<HomeController> _logger;
 		private readonly ICategoryRepository _clientCategory;
 		private readonly IProductRepository _clientProduct;
-		public HomeController(ILogger<HomeController> logger,
+		public HomeController(
 			ICategoryRepository clientCategory, IProductRepository clientProduct)
 		{
-			_logger = logger;
+			_logger = (ILogger<HomeController>?)FactoryMethod.LoggerFactory.CreateLogger<HomeController>();
 			_clientCategory = clientCategory;
 			_clientProduct = clientProduct;
 		}
@@ -30,11 +30,11 @@ namespace Kitchen_MVC.Controllers
 			return HttpContext;
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-
+			_logger.LogInformation("Build success");
 			List<CategoryDTO> categories = _clientCategory.GetAllCategories().Result;
-			List<ProductDTO> products = _clientProduct.GetAllProducts();
+			List<ProductDTO> products = await _clientProduct.GetAllProducts();
 			List<ImageDTO> images = new List<ImageDTO>();
 			foreach (ProductDTO product in products)
 			{

@@ -35,6 +35,8 @@ namespace Kitchen_MVC.Helper
 
             //Product
             CreateMap<Product, ProductDTO>();
+            CreateMap<CreateProductRequest, Product>();
+
             //Image
             CreateMap<Image, ImageDTO>();
             //Customer
