@@ -18,7 +18,16 @@ namespace Kitchen_MVC.Repositores
 			//SingletonDataBridge.GetInstance() = dataContext;
 			//SingletonAutoMapper.GetInstance() = mapper;
 		}
-		public async Task<int> CreateOrder(CreateOrderRequest request)
+
+        public async Task<bool> ConfirmOrder(int id)
+        {
+			var order = SingletonDataBridge.GetInstance().Orders.Find(id);
+			order.Status = 1;
+			await SingletonDataBridge.GetInstance().SaveChangesAsync();
+			return true;
+        }
+
+        public async Task<int> CreateOrder(CreateOrderRequest request)
 		{
 			try
 			{

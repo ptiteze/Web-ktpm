@@ -99,7 +99,7 @@
 						{
 							<tr>
 								<td> <img width="60" src=@Model.Images[@pr.Id] alt="" /></td>
-								<td>@pr.Name <br />@pr.Description.Substring(0, 20)</td>
+								@* <td>@pr.Name <br />@pr.Description.Substring(0, 20)</td> *@
 								@{
 									int quantity = @Model.OrderDetails.FirstOrDefault(od => od.ProductId == pr.Id).Quantity;
 									int price = (int)@Model.OrderDetails.FirstOrDefault(od => od.ProductId == pr.Id).Price;

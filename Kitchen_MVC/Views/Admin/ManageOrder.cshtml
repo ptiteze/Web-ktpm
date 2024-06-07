@@ -49,6 +49,9 @@
 					<li>
 						<a asp-controller="Admin" asp-action="ManageOrder"> Quản lý Order</a>
 					</li>
+					<li>
+						<a asp-controller="Admin" asp-action="ManageImage"> Quản lý Ảnh Sản Phẩm</a>
+					</li>
 				</ul>
 				<br />
 
@@ -120,7 +123,7 @@
 											<td><a asp-action="OrderDetail" asp-controller="Order" asp-route-id="@Model.Orders[i].Id">Chi tiết</a></td>
 											@if (Model.Orders[i].Status == 0)
 											{
-												<td><a asp-controller="Admin" asp-action="" asp-route-id="@Model.Orders[i].Id">
+												<td><a asp-controller="Admin" asp-action="ConfirmOrder" asp-route-id="@Model.Orders[i].Id">
 													<span class="btn btn-success">Xác nhận</span></a></td>
 											}
 											

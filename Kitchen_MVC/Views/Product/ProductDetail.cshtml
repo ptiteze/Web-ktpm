@@ -55,14 +55,26 @@
 							<img src=@Model.ImagesForProduct[0].Url style="width:100%" alt=@Model.Product.Name />
 						</a>
 						<div id="differentview" class="moreOptopm carousel slide">
-							<div class="carousel-inner">
+							<div class="carousel-inner" style="display:flex; align-items: flex-start;">
 								@{
-									string url1 = "", url2 = "", url3 = "";
-									url1 = @Model.ImagesForProduct[0].Url;
-									url2 = @Model.ImagesForProduct[1].Url;
-									url3 = @Model.ImagesForProduct[2].Url;
+									string url1 = "";
+									for(int i = 0; i<  Model.ImagesForProduct.Count && i < 3 ; i++)
+									{
+										url1 = @Model.ImagesForProduct[0].Url;
+										<div class="item active">
+											<a target="_blank" href=@url1> <img style="width:40%" src=@url1 alt="" /></a>
+										</div>
+										<div class="item" >
+											<a href=@url1> <img style="width:20%" src=@url1 alt="" /></a>
+										</div>
+									}
+
+
+									// url1 = @Model.ImagesForProduct[0].Url;
+									// url2 = @Model.ImagesForProduct[1].Url;
+									// url3 = @Model.ImagesForProduct[2].Url;
 								}
-								<div class="item active">
+								@* <div class="item active">
 									<a target="_blank" href=@url1> <img style="width:20%" src=@url1 alt="" /></a>
 									<a target="_blank" href=@url2> <img style="width:20%" src=@url2 alt="" /></a>
 									<a target="_blank" href=@url3> <img style="width:20%" src=@url3 alt="" /></a>
@@ -71,7 +83,7 @@
 									<a href=@url3> <img style="width:20%" src=@url3 alt="" /></a>
 									<a href=@url1> <img style="width:20%" src=@url1 alt="" /></a>
 									<a href=@url2> <img style="width:20%" src=@url2 alt="" /></a>
-								</div>
+								</div> *@
 							</div>
 						</div>
 

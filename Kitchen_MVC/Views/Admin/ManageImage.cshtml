@@ -1,15 +1,9 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-@using Kitchen_MVC.DTO.Category;
+﻿@using Kitchen_MVC.ViewModels.Image
 
 @section Header {
     @Html.Partial("SideBar")
 }
-@model CreateCategoryRequest
+@model AddImageViewModel
 
 <div id="mainBody">
     <div class="container">
@@ -36,18 +30,23 @@
 
             </div>
             <div class="span9" style="display:flex; justify-content:center;">
-                <form method="post" modelAttribute="user" asp-action="AddCategory"  asp-controller="Admin" enctype="multipart/form-data">
+                <form method="post" modelAttribute="user" asp-action="ManageImage" asp-controller="Admin" enctype="multipart/form-data">
                     <div class="row my-3" style="margin-bottom:30px; ">
                         <p style="font-size: 20px;">
-                            Thêm Loại Sản Phẩm
+                            Thêm Ảnh Cho Sản Phẩm
                         </p>
                     </div>
                     <div class="row my-3">
+                        <label asp-for="request.ProductId">Product:</label>
+                        <select asp-for="request.ProductId" asp-items="@(new SelectList(Model.Products, "Id", "Name"))">
+                        </select>
+                    </div>
+                    <div class="row my-3">
                         <label class="col-sm-3 col-form-label text-end">
-                            Tên loại sản phẩm
+                            Chọn file ảnh
                         </label>
                         <div class="col-sm-8">
-                            <input type="text" asp-for="Name" class="form-control" required="true"/>
+                            <input type="file" asp-for="request.Url"  class="form-control" required="true" />
                         </div>
                     </div>
 
@@ -63,3 +62,4 @@
         </div>
     </div>
 </div>
+

@@ -12,5 +12,7 @@ namespace Kitchen_MVC.Interfaces
 		List<OrderDetailDTO> GetOrderDetailsByOrderId(int id);
 		List<OrderDTO> GetOrdersByCustomerId(int id);
 
-	}
+		Task<bool> ConfirmOrder(int id);
+
+    }
 }
