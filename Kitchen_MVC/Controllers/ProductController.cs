@@ -19,7 +19,7 @@ namespace Kitchen_MVC.Controllers
 			_clientCategory = clientCategory;
 			_clientProduct = clientProduct;
 		}
-		public IActionResult Index(string input, string option)
+		public async Task<IActionResult> Index(string input, string option)
 		{
 			List<CategoryDTO> categories = _clientCategory.GetAllCategories().Result;
 			List<ProductDTO> products = new List<ProductDTO>();
@@ -31,7 +31,7 @@ namespace Kitchen_MVC.Controllers
 			}
 			else
 			{
-				products = _clientProduct.GetAllProducts();
+				products = await _clientProduct.GetAllProducts();
 			}
 			if (input == null || input.Trim().Equals(""))
 			{

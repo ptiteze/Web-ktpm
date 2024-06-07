@@ -15,7 +15,7 @@ namespace Kitchen_MVC.Interfaces
 
         Task<bool> DeleteProduct(int id);
 
-        List<ProductDTO> GetAllProducts();
+        Task<List<ProductDTO>> GetAllProducts();
 
         List<ImageDTO> GetImageById(int id);
     }

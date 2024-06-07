@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http;
+@using Kitchen_MVC.ViewModels.Admin;
 @inject IHttpContextAccessor HttpContextAccessor
 @{
 	string Fullname = HttpContextAccessor.HttpContext.Session.GetString("Fullname");
@@ -10,9 +11,7 @@
 	@Html.Partial("SideBar")
 }
 
-@* @section Footer {
-	@Html.Partial("Footer")
-} *@
+@model ManageProductViewModel
 
 
 <!DOCTYPE html>
@@ -22,13 +21,17 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="description" content="" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	<meta name="author" content="" />
 	<title>Trang Admin</title>
 	<style>
 		th, td {
-			padding: 10px 20px;
+			padding: 5px 10px;
+		} 
+		td{
+			text-align: center;
 		}
-	</style>
+	</style>>
 </head>
 <div id="mainBody">
 	<div class="container">
@@ -39,7 +42,6 @@
 					<li>
 						<a asp-controller="Admin" asp-action="ManageProduct"> Quản lý Sản Phẩm </a>
 					</li>
-
 					<li>
 						<a asp-controller="Admin" asp-action="ManageCategory"> Quản lý Category </a>
 					</li>
@@ -54,18 +56,19 @@
 
 			</div>
 			<div class="span9">
+				<div>
+					<a asp-action="AddProduct" asp-controller="Admin" class="btn btn-primary">Thêm Sản Phẩm</a>
+				</div>
+				
 				<div class="well well-small">
 					<div class="row-fluid">
 						<div id="featured" class="carousel slide">
 							<div class="carousel-inner">
-								<div class="item active">
-									<ul class="thumbnails">
-									</ul>
+								<div class="item active">					
 								</div>
 							</div>
 						</div>
 						<div class="card-header">
-							<i class="fas fa-table me-1"></i>
 							Danh sách sản phẩm
 						</div>
 						<div class="card-body">
@@ -74,21 +77,29 @@
 									<tr>
 										<th>Mã sản phẩm</th>
 										<th>Name</th>
-										<th>Sửa</th>
-										<th>Xóa</th>
+										<th>Status</th>
+										<th>Category</th>
+										<th>Quantity</th>
+										<th>Price</th>
+										<th>Edit</th>
+										<th>Delete</th>
 									</tr>
 								</thead>
 
 								<tbody>
-									@* @for (int i = 0; i < Model.Categories.Count; i++)
+									@for (int i = 0; i < Model.Products.Count; i++)
 									{
-									<tr>
-									<td>@Model.Categories[i].Id</td>
-									<td>@Model.Categories[i].Name</td>
-									<td><a asp-controller="Admin" asp-action="EditProduct" asp-route-id="@Model.Categories[i].Id"><i class="fa-solid fa-pen-to-square"></i></a></td>
-									<td><a asp-controller="Admin" asp-action="DeleteProduct" asp-route-id="@Model.Categories[i].Id"><i class="fa-solid fa-trash"></i></a></td>
-									</tr>
-									} *@
+										<tr>
+											<td>@Model.Products[i].Id</td>
+											<td>@Model.Products[i].Name</td>
+											<td>@Model.Products[i].Status</td>
+											<td>@Model.Products[i].CategoryId</td>
+											<td>@Model.Products[i].Quantity</td>
+											<td>@Model.Products[i].Price</td>
+											<td><a asp-controller="Admin" asp-action="EditProduct" asp-route-id="@Model.Products[i].Id"><i class="fa-regular fa-pen-to-square"></i></a></td>
+											<td><a asp-controller="Admin" asp-action="DeleteProduct" asp-route-id="@Model.Products[i].Id">Xóa</a></td>
+										</tr>
+									}
 								</tbody>
 							</table>
 						</div>
@@ -98,5 +109,4 @@
 
 		</div>
 	</div>
-</div>
 </div>

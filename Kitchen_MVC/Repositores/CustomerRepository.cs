@@ -73,6 +73,14 @@ namespace Kitchen_MVC.Repositores
 			}
 			
 		}
+		public async Task<bool> DeleteCustomer(int id)
+		{
+			var customer = SingletonDataBridge.GetInstance().Customers.Find(id);
+			Console.WriteLine(customer.Fullname);
+			SingletonDataBridge.GetInstance().Customers.Remove(customer);
+			SingletonDataBridge.GetInstance().SaveChangesAsync();
+			return true;
+		}
 
 		public async Task<List<CartDetailDTO>> GetCartDetailsByCustomerId(int id)
 		{
@@ -87,6 +95,14 @@ namespace Kitchen_MVC.Repositores
 			if (res == null)
 				throw new NotFoundException("Not find customer with id: " + id);
 			return res;
+		}
+
+		public async Task<List<CustomerDTO>> GetListCustomer()
+		{
+			var customers = SingletonDataBridge.GetInstance().Customers.ToList();
+
+			return SingletonAutoMapper.GetInstance().Map<List<CustomerDTO>>(customers);
+			return null;
 		}
 
 		public async Task<bool> UpdateCustomer(int id, UpdateCustomerRequest request)
